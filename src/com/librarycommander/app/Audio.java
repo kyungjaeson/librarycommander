@@ -1,6 +1,6 @@
 package com.librarycommander.app;
 
-public class Audio extends Item{
+public class Audio extends Media{
     // generated AudioType field
     private AudioType audio;
 
