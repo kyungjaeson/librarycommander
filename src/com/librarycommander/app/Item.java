@@ -6,8 +6,26 @@ public abstract class Item {
   private String title;
   private String author;
   private boolean checkedStatus;
-  DistributionType distributionType;
-  List<Customer> waitList;
+  private DistributionType distributionType;
+  private List<Customer> waitList;
+
+  Item(){}
+  Item(String title){
+      setTitle(title);
+  }
+
+  Item(String title,String author){
+      this(title);
+      setAuthor(author);
+  }
+  Item(String title,String author,boolean status){
+      this(title,author);
+      setCheckedStatus(status);
+  }
+  Item(String title,String author,boolean status,DistributionType type){
+      this(title,author,status);
+     setDistributionType(type);
+  }
 
   public  abstract boolean addToWaitList(Customer customer);
   public abstract boolean removeFromWaitList(Customer customer);
@@ -34,5 +52,21 @@ public abstract class Item {
 
     public void setCheckedStatus(boolean checkedStatus) {
         this.checkedStatus = checkedStatus;
+    }
+
+    public DistributionType getDistributionType() {
+        return distributionType;
+    }
+
+    public void setDistributionType(DistributionType distributionType) {
+        this.distributionType = distributionType;
+    }
+
+    public List<Customer> getWaitList() {
+        return waitList;
+    }
+
+    public void setWaitList(List<Customer> waitList) {
+        this.waitList = waitList;
     }
 }

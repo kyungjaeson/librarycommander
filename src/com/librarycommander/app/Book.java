@@ -1,6 +1,6 @@
 package com.librarycommander.app;
 
-public class Book extends Item{
+public class Book extends Item {
 
     private String isbn;
     private int pages;
@@ -20,7 +20,6 @@ public class Book extends Item{
     public void setPages(int pages) {
         this.pages = pages;
     }
-
 
 
     @Override
