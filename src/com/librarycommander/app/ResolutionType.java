@@ -10,6 +10,8 @@ public enum ResolutionType {
     BASIC_HD("360P"),
     ULTRA_BASIC_HD("280P");
 
+    //We placed this in our enum, after realizing that numerical values cannot be represented in enums
+
     ResolutionType(String numericalRepresentation) {
         instanceVariable = numericalRepresentation;
     }
