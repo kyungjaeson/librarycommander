@@ -1,4 +1,4 @@
-#The Library Commander
+# The Library Commander
 Control and manage item reservations through a console-based library management system.
 
 Users of the system are allowed to browse through the resources by features, see if it is available to borrow, if it is not be added to a waitlist, and finally, check out a resource.
@@ -11,4 +11,4 @@ Start the program by beginining the program and follow the prompts.
 Here are a few useful commands:
 *
 *
-*
+* Yoink
