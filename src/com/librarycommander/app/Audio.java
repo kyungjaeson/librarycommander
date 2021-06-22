@@ -4,7 +4,14 @@ public class Audio extends Media{
     // generated AudioType field
     private AudioType audio;
 
-    public Audio(){}
+    public Audio(){
+        super();
+    }
+
+    public Audio(AudioType audioType)
+    {
+        setAudio(audioType);
+    }
 
     //getters and setters
     public AudioType getAudio() {
