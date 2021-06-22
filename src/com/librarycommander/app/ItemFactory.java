@@ -1,6 +1,7 @@
 package com.librarycommander.app;
 
 public class ItemFactory {
+    private ItemFactory(){}
     public static Item createItem(ItemType indicator) {
         Item libraryItem = null;
         switch (indicator) {
