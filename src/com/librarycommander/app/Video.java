@@ -3,6 +3,14 @@ package com.librarycommander.app;
 public class Video extends Media{
     //private fields
     private ResolutionType resolution;
+
+    public Video(){
+        super();
+    }
+
+    public Video(ResolutionType resolution){
+        setResolution(resolution);
+    }
     //setters/getters
     public ResolutionType getResolution() {
         return resolution;

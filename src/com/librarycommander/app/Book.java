@@ -5,6 +5,20 @@ public class Book extends Item {
     private String isbn;
     private int pages;
 
+    public Book(){
+        super();
+    }
+    public Book(String isbn){
+        setIsbn(isbn);
+    }
+    public Book(String isbn,int pages){
+        this(isbn);
+        setPages(pages);
+    }
+     public Book(String title,String author,boolean status){
+        super(title,author,status);
+     }
+
     public String getIsbn() {
         return isbn;
     }
