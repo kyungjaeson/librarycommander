@@ -33,6 +33,6 @@ public class Video extends Media{
     @Override
     public String toString() {
         return super.toString() +
-                "resolution=" + resolution;
+                ", resolution=" + resolution;
     }
 }

@@ -82,11 +82,12 @@ public abstract class Item {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName()+"{" +
-                "title='" + title + '\'' +
+        return getClass().getSimpleName() +
+                ":title='" + title + '\'' +
                 ", author='" + author + '\'' +
+                ", checkedStatus=" + checkedStatus +
                 ", distributionType=" + distributionType +
                 ", itemType=" + itemType +
-                '}';
+                ", waitList=" + waitList ;
     }
 }

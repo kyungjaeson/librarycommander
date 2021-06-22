@@ -1,0 +1,3 @@
+Effective Java,Joshua Bloch,true,CIRCULATING,,978-0-13-468599-1,392,BOOK
+Greenlights,Matthew McConaughey,true,RESTRICTED,,6:42,BOOK,AUDIO
+Hibernate and Java Persistence API,Kevin Bowersox,false,CIRCULATING,Stephen Yeboah,7:22,HD,VIDEO
