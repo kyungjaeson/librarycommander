@@ -9,20 +9,20 @@ public abstract class Item {
   private DistributionType distributionType;
   private List<Customer> waitList;
 
-  Item(){}
-  Item(String title){
+  public Item(){}
+  public Item(String title){
       setTitle(title);
   }
 
-  Item(String title,String author){
+  public Item(String title,String author){
       this(title);
       setAuthor(author);
   }
-  Item(String title,String author,boolean status){
+  public Item(String title,String author,boolean status){
       this(title,author);
       setCheckedStatus(status);
   }
-  Item(String title,String author,boolean status,DistributionType type){
+  public Item(String title,String author,boolean status,DistributionType type){
       this(title,author,status);
      setDistributionType(type);
   }
