@@ -29,4 +29,10 @@ public class Video extends Media{
     public boolean removeFromWaitList(Customer customer) {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "resolution=" + resolution;
+    }
 }
