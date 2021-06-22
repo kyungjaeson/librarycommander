@@ -32,4 +32,10 @@ public class Audio extends Media{
     public boolean removeFromWaitList(Customer customer) {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "audio=" + audio ;
+    }
 }

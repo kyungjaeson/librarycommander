@@ -45,4 +45,11 @@ public class Book extends Item {
     public boolean removeFromWaitList(Customer customer) {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+
+                "isbn='" + isbn + '\'' +
+                ", pages=" + pages;
+    }
 }
