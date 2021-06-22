@@ -16,6 +16,6 @@ public abstract class Media extends Item {
     @Override
     public String toString() {
         return super.toString()+
-                "length='" + length + '\'';
+                ", length='" + length + '\'';
     }
 }

@@ -49,7 +49,7 @@ public class Book extends Item {
     @Override
     public String toString() {
         return super.toString()+
-                "isbn='" + isbn + '\'' +
+                ", isbn='" + isbn + '\'' +
                 ", pages=" + pages;
     }
 }
