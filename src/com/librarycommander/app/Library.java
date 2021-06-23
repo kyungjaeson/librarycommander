@@ -1,23 +1,23 @@
 package com.librarycommander.app;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Library {
 
     private Set<Customer> customers = new TreeSet<>();
-    private Collection<Item> items = new ArrayList<>();
+    private Map<Integer,Item> items;
 
     Set<Customer> addCustomer(Customer customer){
         customers.add(customer);
         return customers;
     }
 
+    public Library() throws IOException{
+        items = new CatalogLoader().loadItemsFromFile();
+    }
     //I believe original intention was to destroy customer, but most libraries do not do this and neither should we. Instead we remove any holds
     Customer deactivateCustomer(Customer customer) throws IOException {
         Collection<Item> customerItemInPossession = customer.getItemInPossession();
