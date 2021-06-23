@@ -127,7 +127,13 @@ public class Customer {
         return itemInPossession;
     }
 
+
     public String toString() {
         return getName();
     }
+
+    public void setItemInPossession(List<Item> items) {
+        this.itemInPossession = items;
+    }
+
 }
