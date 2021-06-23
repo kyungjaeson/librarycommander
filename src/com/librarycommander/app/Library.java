@@ -2,25 +2,30 @@ package com.librarycommander.app;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
 
 public class Library {
 
-    private Set<Customer> customers = new TreeSet<>();
+    private Map<Integer,Customer> customers;
     private Map<Integer,Item> items;
-
-    Set<Customer> addCustomer(Customer customer){
-        customers.add(customer);
-        return customers;
-    }
 
     public Library() throws IOException{
         items = new CatalogLoader().loadItemsFromFile();
         customers = new CustomerLoader().readCustomersFromFile();
     }
-    //I believe original intention was to destroy customer, but most libraries do not do this and neither should we. Instead we remove any holds
-    Customer deactivateCustomer(Customer customer) throws IOException {
+
+    public void addCustomer(Customer customer){
+        int highestValue = 0;
+        for(Integer mapKey: customers.keySet()){
+            if(highestValue > mapKey){
+                highestValue = mapKey;
+            }
+        }
+        customers.put(highestValue + 1, customer);
+    }
+
+    public Customer deactivateCustomer(Customer customer) throws IOException {
         Collection<Item> customerItemInPossession = customer.getItemInPossession();
         for(Item item : customerItemInPossession){
             customer.checkOutItem(item);
@@ -29,19 +34,19 @@ public class Library {
         return customer;
     }
 
-    Collection<Item> addItem(Item item){
-        items.add(item);
+    public Collection<Item> addItem(Item item){
+        items.put()
         return items;
     }
 
 
-    Collection<Item> deleteItem(Item item){
+    public Collection<Item> deleteItem(Item item){
         items.remove(item);
         return items;
     }
 
     //substring search by iteration
-    Collection<Item> searchItemByTitle(String keywords){
+    public Collection<Item> searchItemByTitle(String keywords){
         Collection<Item> itemsByTitle = new ArrayList<>();
         for(Item item : items){
             if(item.getTitle().contains(keywords)){
@@ -54,7 +59,7 @@ public class Library {
 
 
     //streams implementation of substring search
-    Collection<Item> searchItemByAuthor(String author){
+    public Collection<Item> searchItemByAuthor(String author){
         Collection<Item> result = items.stream()
                 .filter(item -> item.getAuthor().contains(author))
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -62,13 +67,13 @@ public class Library {
     }
 
     //search customer implementations
-    Collection<Customer> searchCustomerById(Integer id){
+    public Collection<Customer> searchCustomerById(Integer id){
         return customers.stream().
                 filter(customer -> id.equals(customer.getId()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    Collection<Customer> searchCustomerByName(String name){
+    public Collection<Customer> searchCustomerByName(String name){
         return customers.stream()
                 .filter(customer -> customer.getName().contains(name))
                 .collect(Collectors.toCollection(ArrayList::new));
