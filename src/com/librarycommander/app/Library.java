@@ -19,7 +19,6 @@ public class Library {
     }
 
     //I believe original intention was to destroy customer, but most libraries do not do this and neither should we. Instead we remove any holds
-    //waiting on Customer implementation
     Customer deactivateCustomer(Customer customer) throws IOException {
         Collection<Item> customerItemInPossession = customer.getItemInPossession();
         for(Item item : customerItemInPossession){

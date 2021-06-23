@@ -28,8 +28,8 @@ public class CustomerLoader {
                 //customer checking out from file
                 Customer libraryCustomer = new Customer(line[0], Integer.parseInt(line[1]));
                 for(int i = 2; i < item.length(); i++){
-                    if(!libraryCustomer.searchItem(line[i]).isEmpty()){
-                        for(Item individualItem : libraryCustomer.searchItem(line[i])) {
+                    if(!libraryCustomer.searchItemByAuthor(line[i]).isEmpty()){
+                        for(Item individualItem : libraryCustomer.searchItemByAuthor(line[i])) {
                             libraryCustomer.checkOutItem(individualItem);
                         }
                     }
@@ -49,9 +49,9 @@ public class CustomerLoader {
     //Allows write of entries in project via textfile
     public void writeCustomersToFile(Map<Integer, Customer> customers) throws IOException{
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(getCustomerCatalog().toString()))){
-            for(Map.Entry<Integer, Customer> catalog : customers.entrySet()){
+            for(Map.Entry<Integer, Customer> map  : customers.entrySet()){
                 StringBuilder line = new StringBuilder();
-                Customer c = customers.getKey();
+                Customer c = map.getValue();
                 line.append(c.getName()).append(",")
                         .append(c.getId()).append(",");
                 for(Item item : c.getItemInPossession()){
