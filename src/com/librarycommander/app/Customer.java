@@ -102,4 +102,9 @@ public class Customer {
     public List<Item> getItemInPossession() {
         return itemInPossession;
     }
+    public void setItemInPossession(List<Item> items) {
+        this.itemInPossession = items;
+    }
+
+
 }
