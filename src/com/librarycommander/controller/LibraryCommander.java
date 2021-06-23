@@ -6,6 +6,6 @@ import com.librarycommander.app.Library;
 import java.util.Scanner;
 
 public class LibraryCommander {
-    Library library = new Library();
+//    Library library = new Library();
 
 }

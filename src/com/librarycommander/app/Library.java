@@ -34,21 +34,25 @@ public class Library {
         return customer;
     }
 
-    public Collection<Item> addItem(Item item){
-        items.put()
-        return items;
+    public void addItem(Item item){
+        int highestValue = 0;
+        for(Integer mapKey: items.keySet()){
+            if(highestValue > mapKey){
+                highestValue = mapKey;
+            }
+        }
+        items.put(highestValue + 1, item);
     }
 
 
-    public Collection<Item> deleteItem(Item item){
+    public void deleteItem(Item item){
         items.remove(item);
-        return items;
     }
 
     //substring search by iteration
     public Collection<Item> searchItemByTitle(String keywords){
         Collection<Item> itemsByTitle = new ArrayList<>();
-        for(Item item : items){
+        for(Item item : items.values()){
             if(item.getTitle().contains(keywords)){
                 itemsByTitle.add(item);
             }
@@ -59,8 +63,9 @@ public class Library {
 
 
     //streams implementation of substring search
+
     public Collection<Item> searchItemByAuthor(String author){
-        Collection<Item> result = items.stream()
+        Collection<Item> result = items.values().stream()
                 .filter(item -> item.getAuthor().contains(author))
                 .collect(Collectors.toCollection(ArrayList::new));
         return result;
@@ -68,23 +73,19 @@ public class Library {
 
     //search customer implementations
     public Collection<Customer> searchCustomerById(Integer id){
-        return customers.stream().
+        return customers.values().stream().
                 filter(customer -> id.equals(customer.getId()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public Collection<Customer> searchCustomerByName(String name){
-        return customers.stream()
+        return customers.values().stream()
                 .filter(customer -> customer.getName().contains(name))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public Set<Customer> getCustomers() {
+    public Map<Integer, Customer> getCustomers() {
         return customers;
-    }
-
-    public void setCustomers(Set<Customer> customers) {
-        this.customers = customers;
     }
 
     public Map<Integer, Item> getItems() {
