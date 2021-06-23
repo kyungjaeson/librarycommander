@@ -17,6 +17,7 @@ public class Library {
 
     public Library() throws IOException{
         items = new CatalogLoader().loadItemsFromFile();
+        customers = new CustomerLoader().readCustomersFromFile();
     }
     //I believe original intention was to destroy customer, but most libraries do not do this and neither should we. Instead we remove any holds
     Customer deactivateCustomer(Customer customer) throws IOException {
@@ -81,11 +82,8 @@ public class Library {
         this.customers = customers;
     }
 
-    public Collection<Item> getItems() {
+    public Map<Integer, Item> getItems() {
         return items;
     }
 
-    public void setItems(Collection<Item> items) {
-        this.items = items;
-    }
 }
