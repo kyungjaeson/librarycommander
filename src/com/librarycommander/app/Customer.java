@@ -9,42 +9,48 @@ public class Customer {
     private String name;
     private int id;
     private List<Item> itemInPossession = new LinkedList<>();
-    private Library library = new Library();
-    private CatalogLoader catalog = new CatalogLoader();
+    private Library library ;
+    private Map<Integer,Item> catalog;
 
-    public Customer(String name) {
+    public Customer() throws IOException{
+        library=new Library();
+        catalog=library.getItems();
+    }
+    public Customer(String name) throws IOException {
+        this();
         this.name = name;
     }
 
-    public Customer(String name, int id) {
+    public Customer(String name, int id) throws IOException {
+        this();
         this.name = name;
         this.id = id;
     }
 
     public void checkOutItem(Item libraryItem) throws IOException {
         System.out.println("Checking out: " + libraryItem.getTitle());
-        Collection<Item> libraryCatalog = catalog.loadItemsFromFile().values();//get this item from library class
+        Collection<Item> libraryCatalog = catalog.values();
         itemInPossession.add(libraryItem);
         List<Item> updatedItem =libraryCatalog.stream()
                 .filter(item -> item.getTitle().equalsIgnoreCase(libraryItem.getTitle()) &&
                         item.getAuthor().equalsIgnoreCase(libraryItem.getAuthor()))
                 .peek(item -> item.setCheckedStatus(false)).collect(Collectors.toList());
-        updateCatalogue(updatedItem,catalog.loadItemsFromFile());
+        updateCatalogue(updatedItem,catalog);
     }
 
     public void checkInItem(Item libraryItem) throws IOException {
         System.out.println("Checking in: " + libraryItem.getTitle());
-        Collection<Item> libraryCatalog = catalog.loadItemsFromFile().values();
+        Collection<Item> libraryCatalog = catalog.values();
         itemInPossession.remove(libraryItem);
         List<Item> checkedIn=libraryCatalog.stream()
                 .filter(item -> item.getTitle().equalsIgnoreCase(libraryItem.getTitle()) &&
                         item.getAuthor().equalsIgnoreCase(libraryItem.getAuthor()))
                 .peek(item -> item.setCheckedStatus(true)).collect(Collectors.toList());
-        updateCatalogue(checkedIn,catalog.loadItemsFromFile());
+        updateCatalogue(checkedIn,catalog);
     }
 
     public List<Item> searchItemByTitle(String keyWord) throws IOException {
-        Collection<Item> libraryCatalog = catalog.loadItemsFromFile().values();
+        Collection<Item> libraryCatalog = catalog.values();
         List<Item> searchedItem = libraryCatalog.stream()
                 .filter(item -> item.getTitle().contains(keyWord))
                 .sorted(Comparator.comparing(item -> item.getTitle()))
@@ -53,7 +59,7 @@ public class Customer {
     }
 
     public List<Item> searchItemByAuthor(String author) throws IOException {
-        List<Item> itemByAuthor = catalog.loadItemsFromFile().values().stream()
+        List<Item> itemByAuthor = catalog.values().stream()
                 .filter(item -> item.getAuthor().toLowerCase().contains(author.toLowerCase()))
                 .sorted((item1, item2) -> item1.getAuthor().compareTo(item2.getAuthor()))
                 .collect(Collectors.toList());
@@ -63,7 +69,7 @@ public class Customer {
     public void renewItem(Item libraryItem) throws IOException {
         boolean hasWaitList = false;
         //check if the item has a wait list
-        Collection<Item> itemToBeRenewed = catalog.loadItemsFromFile().values();
+        Collection<Item> itemToBeRenewed = catalog.values();
         for (Item renewItem : itemToBeRenewed) {
             if (renewItem.getTitle().equalsIgnoreCase(libraryItem.getTitle())) {
                 if (!libraryItem.getWaitList().isEmpty()) {
@@ -84,7 +90,7 @@ public class Customer {
         //list of updated items
         List<Item> updatedItem = new LinkedList<>();
         //search if we have the item
-        List<Item> searchedItem = catalog.loadItemsFromFile().values().stream()
+        List<Item> searchedItem = catalog.values().stream()
                 .filter(item -> item.getTitle().toLowerCase().contains(keyWord.getTitle().toLowerCase()) ||
                         item.getAuthor().toLowerCase().contains(keyWord.getAuthor().toLowerCase()))
                 .collect(Collectors.toList());
@@ -100,8 +106,11 @@ public class Customer {
                     }).collect(Collectors.toList());
             updatedItem.stream().forEach(item -> System.out.println(Arrays.toString(item.getWaitList().toArray())));
         }
-        Map<Integer, Item> testingCollection = catalog.loadItemsFromFile();
-        updateCatalogue(updatedItem, testingCollection);
+        System.out.println("Before updating");
+        System.out.println(catalog);
+        updateCatalogue(updatedItem, catalog);
+        System.out.println("After updating...");
+        System.out.println(catalog);
     }
 
     private void updateCatalogue(List<Item> updatedItem, Map<Integer, Item> values) {
@@ -136,4 +145,7 @@ public class Customer {
         this.itemInPossession = items;
     }
 
+    public Map<Integer,Item> currentLibraryCollection(){
+        return catalog;
+    }
 }

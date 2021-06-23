@@ -33,7 +33,7 @@ public class CatalogLoader {
         return catalog;
     }
 
-    private void setCustomerList(List<Customer> customerList, String[] line) {
+    private void setCustomerList(List<Customer> customerList, String[] line) throws IOException {
         if (!line[4].isBlank()) {
             String[] names = line[4].split(";");
             for (String name : names) {
