@@ -1,9 +1,7 @@
 package com.librarycommander.app;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Customer {
@@ -24,34 +22,42 @@ public class Customer {
     }
 
     public void checkOutItem(Item libraryItem) throws IOException {
-        Collection<Item> libraryCatalog = catalog.loadItemsFromFile().values();
+        System.out.println("Checking out: " + libraryItem.getTitle());
+        Collection<Item> libraryCatalog = catalog.loadItemsFromFile().values();//get this item from library class
         itemInPossession.add(libraryItem);
-        for (Item possess : libraryCatalog) {
-            if (possess.getTitle().equalsIgnoreCase(libraryItem.getTitle())) {
-                possess.setCheckedStatus(false);
-                break;
-            }
-        }
+        List<Item> updatedItem =libraryCatalog.stream()
+                .filter(item -> item.getTitle().equalsIgnoreCase(libraryItem.getTitle()) &&
+                        item.getAuthor().equalsIgnoreCase(libraryItem.getAuthor()))
+                .peek(item -> item.setCheckedStatus(false)).collect(Collectors.toList());
+        updateCatalogue(updatedItem,catalog.loadItemsFromFile());
     }
 
     public void checkInItem(Item libraryItem) throws IOException {
         System.out.println("Checking in: " + libraryItem.getTitle());
         Collection<Item> libraryCatalog = catalog.loadItemsFromFile().values();
         itemInPossession.remove(libraryItem);
-        for (Item possess : libraryCatalog) {
-            if (possess.getTitle().equalsIgnoreCase(libraryItem.getTitle())) {
-                possess.setCheckedStatus(true);
-                break;
-            }
-        }
+        List<Item> checkedIn=libraryCatalog.stream()
+                .filter(item -> item.getTitle().equalsIgnoreCase(libraryItem.getTitle()) &&
+                        item.getAuthor().equalsIgnoreCase(libraryItem.getAuthor()))
+                .peek(item -> item.setCheckedStatus(true)).collect(Collectors.toList());
+        updateCatalogue(checkedIn,catalog.loadItemsFromFile());
     }
 
-    public List<Item> searchItem(String keyWord) throws IOException {
+    public List<Item> searchItemByTitle(String keyWord) throws IOException {
         Collection<Item> libraryCatalog = catalog.loadItemsFromFile().values();
         List<Item> searchedItem = libraryCatalog.stream()
-                .filter(item -> item.getTitle().contains(keyWord) || item.getAuthor().contains(keyWord))
+                .filter(item -> item.getTitle().contains(keyWord))
+                .sorted(Comparator.comparing(item -> item.getTitle()))
                 .collect(Collectors.toList());
         return searchedItem;
+    }
+
+    public List<Item> searchItemByAuthor(String author) throws IOException {
+        List<Item> itemByAuthor = catalog.loadItemsFromFile().values().stream()
+                .filter(item -> item.getAuthor().toLowerCase().contains(author.toLowerCase()))
+                .sorted((item1, item2) -> item1.getAuthor().compareTo(item2.getAuthor()))
+                .collect(Collectors.toList());
+        return itemByAuthor;
     }
 
     public void renewItem(Item libraryItem) throws IOException {
@@ -75,7 +81,8 @@ public class Customer {
     }
 
     public void reserveItem(Item keyWord) throws IOException {
-        List<Customer> waitList = new LinkedList<>();
+        //list of updated items
+        List<Item> updatedItem = new LinkedList<>();
         //search if we have the item
         List<Item> searchedItem = catalog.loadItemsFromFile().values().stream()
                 .filter(item -> item.getTitle().toLowerCase().contains(keyWord.getTitle().toLowerCase()) ||
@@ -85,9 +92,26 @@ public class Customer {
             System.out.println("Sorry, we do not have " + keyWord.getItemType() + "\n" +
                     " " + keyWord.getTitle());
         } else {
-            waitList.add(this);
-            searchedItem.stream()
-                    .peek(item -> item.setWaitList(waitList));
+            updatedItem = searchedItem.stream()
+                    .peek(item -> {
+                        List<Customer> waiting = item.getWaitList();
+                        waiting.add(this);
+                        item.setWaitList(waiting);
+                    }).collect(Collectors.toList());
+            updatedItem.stream().forEach(item -> System.out.println(Arrays.toString(item.getWaitList().toArray())));
+        }
+        Map<Integer, Item> testingCollection = catalog.loadItemsFromFile();
+        updateCatalogue(updatedItem, testingCollection);
+    }
+
+    private void updateCatalogue(List<Item> updatedItem, Map<Integer, Item> values) {
+        for (Map.Entry<Integer, Item> item : values.entrySet()) {
+            for (Item newItem : updatedItem) {
+                if (newItem.equals(item.getValue())) {
+                    values.put(item.getKey(), newItem);
+                    break;
+                }
+            }
         }
     }
 
@@ -101,5 +125,9 @@ public class Customer {
 
     public List<Item> getItemInPossession() {
         return itemInPossession;
+    }
+
+    public String toString() {
+        return getName();
     }
 }

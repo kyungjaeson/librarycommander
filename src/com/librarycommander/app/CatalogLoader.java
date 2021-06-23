@@ -13,7 +13,6 @@ public class CatalogLoader {
 
         if (!collections.isEmpty()) {
             for (String item : collections) {
-                //List<Item> catalogItem = new LinkedList<>();
                 Item libraryItem;
                 counter++;
                 List<Customer> customerList = new ArrayList<>();
@@ -30,7 +29,7 @@ public class CatalogLoader {
                 catalog.put(counter, libraryItem);
             }
         }
-        System.out.println(catalog);
+        //System.out.println(catalog);
         return catalog;
     }
 
@@ -103,7 +102,7 @@ public class CatalogLoader {
     }
 
     private Path getCatalogue() {
-        System.out.println(FileSystems.getDefault().getPath("catalogue.txt"));
+       // System.out.println(FileSystems.getDefault().getPath("catalogue.txt"));
         return FileSystems.getDefault().getPath("catalogue.txt");
     }
 
