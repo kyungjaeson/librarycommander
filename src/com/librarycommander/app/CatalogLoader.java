@@ -61,7 +61,8 @@ public class CatalogLoader {
         }
     }
 
-    public void writeItemsToFile(Map<Integer, Item> items) {
+    public boolean writeItemsToFile(Map<Integer, Item> items) {
+        boolean success = false;
         StringBuffer line;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getCatalogue().toString()))) {
             for (Map.Entry<Integer, Item> catalogue : items.entrySet()) {
@@ -83,12 +84,15 @@ public class CatalogLoader {
                 setItemTypeAttributes(catalog, line);
                 line.append(",").append(catalog.getItemType());
                 writer.write(line + "\n");
+
             }
+            success=true;
         }
         catch (IOException ex){
             ex.printStackTrace();
         }
         System.out.println("Success");
+        return success;
     }
 
     private void setItemTypeAttributes(Item item, StringBuffer line) {
