@@ -9,7 +9,7 @@ public abstract class Item {
   private boolean checkedStatus;
   private DistributionType distributionType;
   private ItemType itemType;
-  private List<Customer> waitList;
+  private List<String> waitList;
 
   public Item(){}
   public Item(String title){
@@ -65,11 +65,11 @@ public abstract class Item {
         this.distributionType = distributionType;
     }
 
-    public List<Customer> getWaitList() {
+    public List<String> getWaitList() {
         return waitList;
     }
 
-    public void setWaitList(List<Customer> waitList) {
+    public void setWaitList(List<String> waitList) {
         this.waitList = waitList;
     }
 

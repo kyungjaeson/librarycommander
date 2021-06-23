@@ -9,19 +9,16 @@ public class CatalogLoader {
     public Map<Integer, Item> loadItemsFromFile() {
         Map<Integer, Item> catalog = new TreeMap<>();
         List<String> lines = null;
-        // TODO: put "catalogue.txt" in a directory
         try {
             lines = Files.readAllLines(getCatalogue());
         } catch (IOException e) {
             e.printStackTrace();
         }
         int counter = 0;
-
-//        if (!lines.isEmpty()) {
-            for (String item : lines) {
+         for (String item : lines) {
                 Item libraryItem;
                 counter++;
-                List<Customer> customerList = new ArrayList<>();
+                List<String> customerList = new ArrayList<>();
                 String[] line = item.split(",");
                 libraryItem = createItems(ItemType.valueOf(line[7]));
                 libraryItem.setTitle(line[0]);
@@ -35,15 +32,15 @@ public class CatalogLoader {
                 catalog.put(counter, libraryItem);
             }
 //        }
-        //System.out.println(catalog);
+        System.out.println(catalog);
         return catalog;
     }
 
-    private void setCustomerList(List<Customer> customerList, String[] line) {
+    private void setCustomerList(List<String> customerList, String[] line) {
         if (!line[4].isBlank()) {
             String[] names = line[4].split(";");
             for (String name : names) {
-                customerList.add(new Customer(name));
+                customerList.add(name);
             }
         }
     }
@@ -64,7 +61,7 @@ public class CatalogLoader {
         }
     }
 
-    public void writeItemsToFile(Map<Integer, Item> items) throws IOException {
+    public void writeItemsToFile(Map<Integer, Item> items) {
         StringBuffer line;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getCatalogue().toString()))) {
             for (Map.Entry<Integer, Item> catalogue : items.entrySet()) {
@@ -77,8 +74,8 @@ public class CatalogLoader {
                     line.append(",");
                 } else {
                     String waitList = "";
-                    for (Customer customer : catalog.getWaitList()) {
-                        waitList += customer.getName() + ";";
+                    for (String customer : catalog.getWaitList()) {
+                        waitList += customer + ";";
                     }
                     waitList = waitList.replace(waitList.charAt(waitList.lastIndexOf(';')), ' ').strip();
                     line.append(waitList).append(",");
@@ -87,6 +84,9 @@ public class CatalogLoader {
                 line.append(",").append(catalog.getItemType());
                 writer.write(line + "\n");
             }
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
         }
         System.out.println("Success");
     }
