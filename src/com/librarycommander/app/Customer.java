@@ -23,7 +23,8 @@ public class Customer {
         this.id = id;
     }
 
-    public void checkOutItem(Item libraryItem)  {
+    public boolean checkOutItem(Item libraryItem)  {
+        boolean status=false;
         System.out.println("Checking out: " + libraryItem.getTitle());
         Collection<Item> libraryCatalog = catalog.values();
         itemInPossession.add(libraryItem);
@@ -31,10 +32,11 @@ public class Customer {
                 .filter(item -> item.getTitle().equalsIgnoreCase(libraryItem.getTitle()) &&
                         item.getAuthor().equalsIgnoreCase(libraryItem.getAuthor()))
                 .peek(item -> item.setCheckedStatus(false)).collect(Collectors.toList());
-        updateCatalogue(updatedItem,catalog);
+        status =updateCatalogue(updatedItem,catalog);
+        return status;
     }
 
-    public void checkInItem(Item libraryItem){
+    public boolean checkInItem(Item libraryItem){
         System.out.println("Checking in: " + libraryItem.getTitle());
         Collection<Item> libraryCatalog = catalog.values();
         itemInPossession.remove(libraryItem);
@@ -42,7 +44,7 @@ public class Customer {
                 .filter(item -> item.getTitle().equalsIgnoreCase(libraryItem.getTitle()) &&
                         item.getAuthor().equalsIgnoreCase(libraryItem.getAuthor()))
                 .peek(item -> item.setCheckedStatus(true)).collect(Collectors.toList());
-        updateCatalogue(checkedIn,catalog);
+        return updateCatalogue(checkedIn,catalog);
     }
 
     public List<Item> searchItemByTitle(String keyWord) {
@@ -82,7 +84,7 @@ public class Customer {
         }
     }
 
-    public void reserveItem(Item keyWord) {
+    public boolean reserveItem(Item keyWord) {
         //list of updated items
         List<Item> updatedItem = new LinkedList<>();
         //search if we have the item
@@ -102,22 +104,23 @@ public class Customer {
                     }).collect(Collectors.toList());
             updatedItem.stream().forEach(item -> System.out.println(Arrays.toString(item.getWaitList().toArray())));
         }
-        System.out.println("Before updating");
-        System.out.println(catalog);
-        updateCatalogue(updatedItem, catalog);
-        System.out.println("After updating...");
-        System.out.println(catalog);
+
+       return updateCatalogue(updatedItem, catalog);
+
     }
 
-    private void updateCatalogue(List<Item> updatedItem, Map<Integer, Item> values) {
+    private boolean updateCatalogue(List<Item> updatedItem, Map<Integer, Item> values) {
+        boolean isUpdated=false;
         for (Map.Entry<Integer, Item> item : values.entrySet()) {
             for (Item newItem : updatedItem) {
                 if (newItem.equals(item.getValue())) {
                     values.put(item.getKey(), newItem);
+                    isUpdated=true;
                     break;
                 }
             }
         }
+        return isUpdated;
     }
 
     public String getName() {
