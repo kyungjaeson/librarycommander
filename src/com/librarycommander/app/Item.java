@@ -1,6 +1,7 @@
 package com.librarycommander.app;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Item {
   private String title;
@@ -89,5 +90,18 @@ public abstract class Item {
                 ", distributionType=" + distributionType +
                 ", itemType=" + itemType +
                 ", waitList=" + waitList ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Objects.equals(title, item.title) && Objects.equals(author, item.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, author);
     }
 }
