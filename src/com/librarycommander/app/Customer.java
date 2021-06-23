@@ -12,8 +12,7 @@ public class Customer {
     private Library library = Library.getInstance() ;
     private Map<Integer,Item> catalog = library.getItems();
 
-    public Customer() throws IOException{
-//        catalog=library.getItems();
+    public Customer(){
     }
     public Customer(String name) {
         this.name = name;
@@ -24,7 +23,7 @@ public class Customer {
         this.id = id;
     }
 
-    public void checkOutItem(Item libraryItem) throws IOException {
+    public void checkOutItem(Item libraryItem)  {
         System.out.println("Checking out: " + libraryItem.getTitle());
         Collection<Item> libraryCatalog = catalog.values();
         itemInPossession.add(libraryItem);
@@ -35,7 +34,7 @@ public class Customer {
         updateCatalogue(updatedItem,catalog);
     }
 
-    public void checkInItem(Item libraryItem) throws IOException {
+    public void checkInItem(Item libraryItem){
         System.out.println("Checking in: " + libraryItem.getTitle());
         Collection<Item> libraryCatalog = catalog.values();
         itemInPossession.remove(libraryItem);
@@ -46,7 +45,7 @@ public class Customer {
         updateCatalogue(checkedIn,catalog);
     }
 
-    public List<Item> searchItemByTitle(String keyWord) throws IOException {
+    public List<Item> searchItemByTitle(String keyWord) {
         Collection<Item> libraryCatalog = catalog.values();
         List<Item> searchedItem = libraryCatalog.stream()
                 .filter(item -> item.getTitle().contains(keyWord))
@@ -55,7 +54,7 @@ public class Customer {
         return searchedItem;
     }
 
-    public List<Item> searchItemByAuthor(String author) throws IOException {
+    public List<Item> searchItemByAuthor(String author) {
         List<Item> itemByAuthor = catalog.values().stream()
                 .filter(item -> item.getAuthor().toLowerCase().contains(author.toLowerCase()))
                 .sorted((item1, item2) -> item1.getAuthor().compareTo(item2.getAuthor()))
@@ -63,7 +62,7 @@ public class Customer {
         return itemByAuthor;
     }
 
-    public void renewItem(Item libraryItem) throws IOException {
+    public void renewItem(Item libraryItem)  {
         boolean hasWaitList = false;
         //check if the item has a wait list
         Collection<Item> itemToBeRenewed = catalog.values();
@@ -83,7 +82,7 @@ public class Customer {
         }
     }
 
-    public void reserveItem(Item keyWord) throws IOException {
+    public void reserveItem(Item keyWord) {
         //list of updated items
         List<Item> updatedItem = new LinkedList<>();
         //search if we have the item
@@ -97,8 +96,8 @@ public class Customer {
         } else {
             updatedItem = searchedItem.stream()
                     .peek(item -> {
-                        List<Customer> waiting = item.getWaitList();
-                        waiting.add(this);
+                        List<String> waiting = item.getWaitList();
+                        waiting.add(this.getName());
                         item.setWaitList(waiting);
                     }).collect(Collectors.toList());
             updatedItem.stream().forEach(item -> System.out.println(Arrays.toString(item.getWaitList().toArray())));
