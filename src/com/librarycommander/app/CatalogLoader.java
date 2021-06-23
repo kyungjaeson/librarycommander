@@ -15,22 +15,22 @@ public class CatalogLoader {
             e.printStackTrace();
         }
         int counter = 0;
-         for (String item : lines) {
-                Item libraryItem;
-                counter++;
-                List<String> customerList = new ArrayList<>();
-                String[] line = item.split(",");
-                libraryItem = createItems(ItemType.valueOf(line[7]));
-                libraryItem.setTitle(line[0]);
-                libraryItem.setAuthor(line[1]);
-                libraryItem.setCheckedStatus(Boolean.parseBoolean(line[2]));
-                libraryItem.setDistributionType(DistributionType.valueOf(line[3]));
-                libraryItem.setItemType(ItemType.valueOf(line[7]));
-                setCustomerList(customerList, line);
-                libraryItem.setWaitList(customerList);
-                setItemTypes(libraryItem, line);
-                catalog.put(counter, libraryItem);
-            }
+        for (String item : lines) {
+            Item libraryItem;
+            counter++;
+            List<String> customerList = new ArrayList<>();
+            String[] line = item.split(",");
+            libraryItem = createItems(ItemType.valueOf(line[7]));
+            libraryItem.setTitle(line[0]);
+            libraryItem.setAuthor(line[1]);
+            libraryItem.setCheckedStatus(Boolean.parseBoolean(line[2]));
+            libraryItem.setDistributionType(DistributionType.valueOf(line[3]));
+            libraryItem.setItemType(ItemType.valueOf(line[7]));
+            setCustomerList(customerList, line);
+            libraryItem.setWaitList(customerList);
+            setItemTypes(libraryItem, line);
+            catalog.put(counter, libraryItem);
+        }
 //        }
         System.out.println(catalog);
         return catalog;
@@ -44,21 +44,20 @@ public class CatalogLoader {
             }
         }
     }
- // TODO: else if? instanceOf
+
+    //else if? instanceOf
     private void setItemTypes(Item libraryItem, String[] item) {
-        switch ((libraryItem.getClass().getSimpleName())) {
-            case "Book":
-                ((Book) libraryItem).setIsbn(item[5]);
-                ((Book) libraryItem).setPages(Integer.parseInt(item[6]));
-                break;
-            case "Audio":
-                ((Audio) libraryItem).setLength(item[5]);
-                ((Audio) libraryItem).setAudio(AudioType.valueOf(item[6]));
-                break;
-            case "Video":
-                ((Video) libraryItem).setLength(item[5]);
-                ((Video) libraryItem).setResolution(ResolutionType.valueOf(item[6]));
+        if (libraryItem instanceof Book) {
+            ((Book) libraryItem).setIsbn(item[5]);
+            ((Book) libraryItem).setPages(Integer.parseInt(item[6]));
+        } else if (libraryItem instanceof Audio) {
+            ((Audio) libraryItem).setLength(item[5]);
+            ((Audio) libraryItem).setAudio(AudioType.valueOf(item[6]));
+        } else if (libraryItem instanceof Video) {
+            ((Video) libraryItem).setLength(item[5]);
+            ((Video) libraryItem).setResolution(ResolutionType.valueOf(item[6]));
         }
+
     }
 
     public boolean writeItemsToFile(Map<Integer, Item> items) {
@@ -86,9 +85,8 @@ public class CatalogLoader {
                 writer.write(line + "\n");
 
             }
-            success=true;
-        }
-        catch (IOException ex){
+            success = true;
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
         System.out.println("Success");
@@ -112,10 +110,6 @@ public class CatalogLoader {
     }
 
     private Path getCatalogue() {
-       // System.out.println(FileSystems.getDefault().getPath("catalogue.txt"));
-        // return Path.of("catalogue.txt")
-        // create sub directories data/catalogue.txt
-        // Path.of("data/catalogue.txt");
         return Path.of("data/catalogue.txt");
     }
 
