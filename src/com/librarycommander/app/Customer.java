@@ -9,20 +9,17 @@ public class Customer {
     private String name;
     private int id;
     private List<Item> itemInPossession = new LinkedList<>();
-    private Library library ;
-    private Map<Integer,Item> catalog;
+    private Library library = Library.getInstance() ;
+    private Map<Integer,Item> catalog = library.getItems();
 
     public Customer() throws IOException{
-        library=new Library();
-        catalog=library.getItems();
+//        catalog=library.getItems();
     }
-    public Customer(String name) throws IOException {
-        this();
+    public Customer(String name) {
         this.name = name;
     }
 
-    public Customer(String name, int id) throws IOException {
-        this();
+    public Customer(String name, int id) {
         this.name = name;
         this.id = id;
     }

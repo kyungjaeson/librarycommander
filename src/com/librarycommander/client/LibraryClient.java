@@ -4,6 +4,7 @@ import com.apps.util.Prompter;
 import com.librarycommander.controller.LibraryCommander;
 import org.w3c.dom.ls.LSOutput;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class LibraryClient {
@@ -13,7 +14,13 @@ public class LibraryClient {
     }
     public static void main(String[] args) {
         Prompter prompter = new Prompter(new Scanner(System.in));
-        LibraryCommander librarian = new LibraryCommander();
+        LibraryCommander commander = null;
+        try {
+            System.out.println("test");
+            commander = new LibraryCommander();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         boolean main = true;
 
@@ -36,10 +43,17 @@ public class LibraryClient {
 
             switch(lowerInput){
                 case "s":
-                    System.out.println("Would you like to search by Title(T) or Author(A)?");
+                    System.out.println("Would you like to search by [T]itle or [A]uthor?");
+
                     System.out.println();
                     String searchBy = prompter.prompt("Type T or A: ");
+                    switch(searchBy.toLowerCase()){
+                        case "t":
+                            String title = prompter.prompt("Enter the title of the item.");
+                            commander.searchTitle(title);
 
+                    }
+                    commander.searchTitle(searchBy);
                     // insert search function here to take in an an argument of T or A;
                     break;
                 case "c":

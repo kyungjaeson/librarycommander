@@ -14,9 +14,14 @@ import java.util.TreeMap;
 
 public class CustomerLoader {
     //Allows read of existing entries in project via textfile
-    public Map<Integer, Customer> readCustomersFromFile() throws IOException {
+    public Map<Integer, Customer> readCustomersFromFile() {
         Map<Integer, Customer> catalog = new TreeMap<>();
-        List<String> collections = Files.readAllLines(getCustomerCatalog());
+        List<String> collections = null;
+        try {
+            collections = Files.readAllLines(getCustomerCatalog());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         int counter = 0;
         //mapping values to collections
         if (!collections.isEmpty()) {

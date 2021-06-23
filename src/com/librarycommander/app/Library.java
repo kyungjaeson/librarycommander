@@ -5,13 +5,23 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class Library {
+public enum Library {
+    INSTANCE;
 
+    public static Library getInstance() {
+        return INSTANCE;
+    }
+
+    // new customer loader
     private Map<Integer,Customer> customers;
     private Map<Integer,Item> items;
 
-    public Library() throws IOException{
-        items = new CatalogLoader().loadItemsFromFile();
+    Library() {
+        System.out.println("I'm in Library");
+        CatalogLoader loader = new CatalogLoader();
+        System.out.println("Im out of classLoader");
+        items = loader.loadItemsFromFile();
+        System.out.println("Loading Items");
         customers = new CustomerLoader().readCustomersFromFile();
     }
 
@@ -59,8 +69,6 @@ public class Library {
         }
         return itemsByTitle;
     }
-
-
 
     //streams implementation of substring search
 

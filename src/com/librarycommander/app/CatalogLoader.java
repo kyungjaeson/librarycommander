@@ -6,13 +6,19 @@ import java.util.*;
 
 public class CatalogLoader {
 
-    public Map<Integer, Item> loadItemsFromFile() throws IOException {
+    public Map<Integer, Item> loadItemsFromFile() {
         Map<Integer, Item> catalog = new TreeMap<>();
-        List<String> collections = Files.readAllLines(getCatalogue());
+        List<String> lines = null;
+        // TODO: put "catalogue.txt" in a directory
+        try {
+            lines = Files.readAllLines(getCatalogue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         int counter = 0;
 
-        if (!collections.isEmpty()) {
-            for (String item : collections) {
+//        if (!lines.isEmpty()) {
+            for (String item : lines) {
                 Item libraryItem;
                 counter++;
                 List<Customer> customerList = new ArrayList<>();
@@ -28,12 +34,12 @@ public class CatalogLoader {
                 setItemTypes(libraryItem, line);
                 catalog.put(counter, libraryItem);
             }
-        }
+//        }
         //System.out.println(catalog);
         return catalog;
     }
 
-    private void setCustomerList(List<Customer> customerList, String[] line) throws IOException {
+    private void setCustomerList(List<Customer> customerList, String[] line) {
         if (!line[4].isBlank()) {
             String[] names = line[4].split(";");
             for (String name : names) {
@@ -41,7 +47,7 @@ public class CatalogLoader {
             }
         }
     }
-
+ // TODO: else if? instanceOf
     private void setItemTypes(Item libraryItem, String[] item) {
         switch ((libraryItem.getClass().getSimpleName())) {
             case "Book":
@@ -103,7 +109,10 @@ public class CatalogLoader {
 
     private Path getCatalogue() {
        // System.out.println(FileSystems.getDefault().getPath("catalogue.txt"));
-        return FileSystems.getDefault().getPath("catalogue.txt");
+        // return Path.of("catalogue.txt")
+        // create sub directories data/catalogue.txt
+        // Path.of("data/catalogue.txt");
+        return Path.of("data/catalogue.txt");
     }
 
     private Item createItems(ItemType type) {
