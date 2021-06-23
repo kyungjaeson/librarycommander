@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 public class CustomerLoader {
     //Allows read of existing entries in project via textfile
-    public Map<Integer, Customer> readCustomersFromFile() {
+    public Map<Integer, Customer> loadCustomersFromFile() {
         Map<Integer, Customer> catalog = new TreeMap<>();
         List<String> collections = null;
         try {
@@ -70,7 +70,7 @@ public class CustomerLoader {
 
     //refactored methods
     private Path getCustomerCatalog() {
-        return FileSystems.getDefault().getPath("customerDirectory");
+        return FileSystems.getDefault().getPath("data/customerDirectory.txt");
     }
 
 }

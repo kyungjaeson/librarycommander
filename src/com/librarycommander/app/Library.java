@@ -22,7 +22,7 @@ public enum Library {
         System.out.println("Im out of classLoader");
         items = loader.loadItemsFromFile();
         System.out.println("Loading Items");
-        customers = new CustomerLoader().readCustomersFromFile();
+        customers = new CustomerLoader().loadCustomersFromFile();
     }
 
     public void addCustomer(Customer customer){
