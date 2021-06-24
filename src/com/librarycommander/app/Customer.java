@@ -11,10 +11,20 @@ public class Customer {
     private List<Item> itemInPossession = new LinkedList<>();
     private static Library library = Library.getInstance() ;
     private Map<Integer,Item> catalog = library.getItems();
+   // private Map<Integer,Customer> customers;
 
     public Customer(){
+
     }
-    public Customer(String name) {
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+   /* public Customer(String name) {
         this();
         this.name = name;
     }
@@ -22,7 +32,7 @@ public class Customer {
     public Customer(String name, int id) {
         this(name);
         this.id = id;
-    }
+    }*/
 
     public boolean checkOutItem(Item libraryItem)  {
        // Map<Integer,Item> catalog=Library.getInstance().getItems();
