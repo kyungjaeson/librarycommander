@@ -13,8 +13,8 @@ public class Video extends Media{
         setAuthor(author);
         setResolution(resolution);
     }
-    public Video(String title, String author, DistributionType distributionType, ItemType itemType){
-        this();
+    public Video(String title, String author, ResolutionType resolution, DistributionType distributionType, ItemType itemType){
+        this(title, author, resolution);
         setDistributionType(distributionType);
         setItemType(itemType);
     }

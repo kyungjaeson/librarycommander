@@ -15,7 +15,7 @@ public class Audio extends Media{
         setAudioType(audioType);
     }
     public Audio(String title, String author, AudioType audioType, DistributionType distributionType){
-        this();
+        this(title,author,audioType);
         setDistributionType(distributionType);
     }
 
