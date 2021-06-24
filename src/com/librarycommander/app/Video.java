@@ -3,13 +3,20 @@ package com.librarycommander.app;
 public class Video extends Media{
     //private fields
     private ResolutionType resolution;
-
     public Video(){
-        super();
+        setItemType(ItemType.VIDEO);
+        setCheckedStatus(false);
     }
-
-    public Video(ResolutionType resolution){
+    public Video(String title, String author, ResolutionType resolution){
+        this();
+        setTitle(title);
+        setAuthor(author);
         setResolution(resolution);
+    }
+    public Video(String title, String author, DistributionType distributionType, ItemType itemType){
+        this();
+        setDistributionType(distributionType);
+        setItemType(itemType);
     }
     //setters/getters
     public ResolutionType getResolution() {

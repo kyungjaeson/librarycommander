@@ -9,7 +9,7 @@ public class Customer {
     private String name;
     private int id;
     private List<Item> itemInPossession = new LinkedList<>();
-    private Library library = Library.getInstance() ;
+    private static final Library library = Library.getInstance() ;
     private Map<Integer,Item> catalog = library.getItems();
 
     public Customer(){

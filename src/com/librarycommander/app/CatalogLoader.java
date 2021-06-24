@@ -52,7 +52,7 @@ public class CatalogLoader {
             ((Book) libraryItem).setPages(Integer.parseInt(item[6]));
         } else if (libraryItem instanceof Audio) {
             ((Audio) libraryItem).setLength(item[5]);
-            ((Audio) libraryItem).setAudio(AudioType.valueOf(item[6]));
+            ((Audio) libraryItem).setAudioType(AudioType.valueOf(item[6]));
         } else if (libraryItem instanceof Video) {
             ((Video) libraryItem).setLength(item[5]);
             ((Video) libraryItem).setResolution(ResolutionType.valueOf(item[6]));
@@ -97,7 +97,7 @@ public class CatalogLoader {
         switch (item.getItemType()) {
             case AUDIO:
                 line.append(((Audio) item).getLength()).append(",")
-                        .append(((Audio) item).getAudio());
+                        .append(((Audio) item).getAudioType());
                 break;
             case BOOK:
                 line.append(((Book) item).getIsbn()).append(",")

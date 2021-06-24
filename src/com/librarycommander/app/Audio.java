@@ -5,20 +5,31 @@ public class Audio extends Media{
     private AudioType audio;
 
     public Audio(){
-        super();
+        setItemType(ItemType.AUDIO);
+        setCheckedStatus(false);
+    }
+
+    public Audio(String title, String author, AudioType audioType){
+        setTitle(title);
+        setAuthor(author);
+        setAudioType(audioType);
+    }
+    public Audio(String title, String author, AudioType audioType, DistributionType distributionType){
+        this();
+        setDistributionType(distributionType);
     }
 
     public Audio(AudioType audioType)
     {
-        setAudio(audioType);
+        setAudioType(audioType);
     }
 
     //getters and setters
-    public AudioType getAudio() {
+    public AudioType getAudioType() {
         return audio;
     }
 
-    public void setAudio(AudioType audio) {
+    public void setAudioType(AudioType audio) {
         this.audio = audio;
     }
 

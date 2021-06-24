@@ -6,18 +6,26 @@ public class Book extends Item {
     private int pages;
 
     public Book(){
-        super();
+        setItemType(ItemType.BOOK);
+        setCheckedStatus(false);
     }
-    public Book(String isbn){
+
+    public Book(String title, String author){
+        this();
+        setTitle(title);
+        setAuthor(author);
+    }
+    public Book(String title, String author, String isbn, int pages){
+        this();
+        setTitle(title);
+        setAuthor(author);
         setIsbn(isbn);
-    }
-    public Book(String isbn,int pages){
-        this(isbn);
         setPages(pages);
     }
-     public Book(String title,String author,boolean status){
-        super(title,author,status);
-     }
+    public Book(String title,String author, String isbn, int pages, DistributionType distributionType){
+        this();
+        setDistributionType(distributionType);
+    }
 
     public String getIsbn() {
         return isbn;
