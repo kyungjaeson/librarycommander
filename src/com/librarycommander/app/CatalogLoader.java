@@ -32,7 +32,7 @@ public class CatalogLoader {
             catalog.put(counter, libraryItem);
         }
 //        }
-        //System.out.println(catalog);
+        System.out.println(catalog);
         return catalog;
     }
 
@@ -75,9 +75,10 @@ public class CatalogLoader {
                 } else {
                     String waitList = "";
                     for (String customer : catalog.getWaitList()) {
-                        line.append(customer).append(";");
+                        waitList += customer + ";";
                     }
-                    line.deleteCharAt(line.lastIndexOf(";")).append(",");
+                    waitList = waitList.replace(waitList.charAt(waitList.lastIndexOf(';')), ' ').strip();
+                    line.append(waitList).append(",");
                 }
                 setItemTypeAttributes(catalog, line);
                 line.append(",").append(catalog.getItemType());

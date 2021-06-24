@@ -26,11 +26,16 @@ public enum Library {
     public void addCustomer(Customer customer){
         int highestValue = 0;
         for(Integer mapKey: customers.keySet()){
-            if(highestValue > mapKey){
+            if(highestValue < mapKey){
                 highestValue = mapKey;
             }
         }
-        customers.put(highestValue + 1, customer);
+        if(customers != null) {
+            customers.put(highestValue + 1, customer);
+        }
+        else{
+            customers.put(1,customer);
+        }
     }
 
     public Customer deactivateCustomer(Customer customer) throws IOException {
@@ -74,7 +79,7 @@ public enum Library {
     public Collection<Item> searchItemByAuthor(String author){
         Collection<Item> result = items.values().stream()
                 .filter(item -> item.getAuthor().contains(author))
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toList());
         return result;
     }
 
