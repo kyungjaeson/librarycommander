@@ -32,40 +32,45 @@ public class CustomerLoader {
                 List<Item> itemList = new ArrayList<>();
                 //customer checking out from file
                 Customer libraryCustomer = new Customer(line[0], Integer.parseInt(line[1]));
-                for(int i = 2; i < item.length(); i++){
-                    if(!libraryCustomer.searchItemByAuthor(line[i]).isEmpty()){
-                        for(Item individualItem : libraryCustomer.searchItemByAuthor(line[i])) {
-                            libraryCustomer.checkOutItem(individualItem);
-                        }
+                if (line[2].contains(";")) {
+                    for (String title : line[2].split(";")) {
+                        List<Item> possessedItem = libraryCustomer.searchItemByTitle(title.strip());
+                        possessedItem.forEach(itemInHand -> itemList.add(itemInHand));
                     }
-                    else{
-                        System.out.println(libraryCustomer + " was not able to check out an item named" + line[i]);
-                    }
+
+                } else {
+                    List<Item> posses = libraryCustomer.searchItemByTitle(line[2].strip());
+                    posses.forEach(itemInHand -> itemList.add(itemInHand));
                 }
-                //writing values to map
+                libraryCustomer.setItemInPossession(itemList);
                 catalog.put(counter, libraryCustomer);
             }
         }
 
-        System.out.println(catalog);
         return catalog;
     }
 
-    //Allows write of entries in project via textfile
-    public void writeCustomersToFile(Map<Integer, Customer> customers) throws IOException{
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(getCustomerCatalog().toString()))){
-            for(Map.Entry<Integer, Customer> map  : customers.entrySet()){
-                StringBuilder line = new StringBuilder();
+    //Allows write of entries in project via text file
+    public boolean writeCustomersToFile(Map<Integer, Customer> customers) {
+        boolean isSuccessful = false;
+        StringBuffer line;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getCustomerCatalog().toString()))) {
+            for (Map.Entry<Integer, Customer> map : customers.entrySet()) {
+                line = new StringBuffer();
                 Customer c = map.getValue();
                 line.append(c.getName()).append(",")
                         .append(c.getId()).append(",");
-                for(Item item : c.getItemInPossession()){
-                    line.append(item.getTitle()).append(",");
+                for (Item item : c.getItemInPossession()) {
+                    line.append(item.getTitle()).append(";");
                 }
+                line.deleteCharAt(line.lastIndexOf(";"));
                 writer.write(line + "\n");
             }
+            isSuccessful = true;
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-
+        return isSuccessful;
     }
 
     //refactored methods
