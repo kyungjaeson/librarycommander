@@ -17,12 +17,9 @@ public enum Library {
     private Map<Integer,Item> items;
 
     Library() {
-        System.out.println("I'm in Library");
         CatalogLoader loader = new CatalogLoader();
-        System.out.println("Im out of classLoader");
         items = loader.loadItemsFromFile();
-        System.out.println("Loading Items");
-        customers = new CustomerLoader().loadCustomersFromFile();
+        //customers = new CustomerLoader().loadCustomersFromFile();
     }
 
     public void addCustomer(Customer customer){
