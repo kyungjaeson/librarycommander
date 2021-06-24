@@ -134,6 +134,10 @@ public class LibraryCommander {
                 case "r":
                     // this logic will remove the item in the customer's list and add it back to the library's catalog
                     System.out.println("Returning an item? No problem!");
+                    System.out.println();
+                    System.out.println("Here are the items that you have on possession:");
+                    customer.getItemInPossession().forEach(item -> System.out.println(item.getTitle()));
+
                     // Display the customer's list of items and they'll choose by array index to return book
                     Map<Integer, Item> itemsToReturn = generateMap(customer.getItemInPossession());
                     if (itemsToReturn.size() < 1) {
