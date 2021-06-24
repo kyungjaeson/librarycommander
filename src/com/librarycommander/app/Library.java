@@ -83,7 +83,14 @@ public enum Library {
     public Collection<Item> searchItemByAuthor(String author){
         Collection<Item> result = items.values().stream()
                 .filter(item -> item.getAuthor().equalsIgnoreCase(author))
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(ArrayList::new));
+        return result;
+    }
+
+    public Collection<Item> searchItemByType(DistributionType distributionType){
+        Collection<Item> result = items.values().stream()
+                .filter(item -> item.getDistributionType().equals(distributionType))
+                .collect(Collectors.toCollection(ArrayList::new));
         return result;
     }
 
@@ -99,6 +106,8 @@ public enum Library {
                 .filter(customer -> customer.getName().equalsIgnoreCase(name))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
+
+
 
     public Map<Integer, Customer> getCustomers() {
         return customers;
