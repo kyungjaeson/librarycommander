@@ -1,9 +1,11 @@
 package com.librarycommander.controller;
 
 import com.apps.util.Prompter;
+import com.librarycommander.app.Item;
 import com.librarycommander.app.Library;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Scanner;
 
 public class LibraryCommander {
@@ -44,17 +46,44 @@ public class LibraryCommander {
 
                     switch (searchBy.toLowerCase()) {
                         case "t":
-                            String title = prompter.prompt("Enter the title of the item.");
-//                            commander.searchTitle(title);
-
+                            String title = prompter.prompt("Enter the title of the item: ");
+                            System.out.println("Here's what we have: \n");
+                            library.searchItemByTitle(title).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()));
+                            System.out.println();
+                        case "a":
+                            String author = prompter.prompt("Enter the author of the item: \n");
+                            System.out.println("Here's what we have: \n");
+                            library.searchItemByAuthor(author).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()) );
+                            System.out.println();
                     }
-//                    commander.searchTitle(searchBy);
-                    // insert search function here to take in an an argument of T or A;
                     break;
                 case "c":
-                    System.out.println("Checking out an item? Sure!");
-                    System.out.println();
-                    String checkout = prompter.prompt("Would you like to check out a Book(B), Audio(A), or Video(V)? ");
+                    System.out.println("Checking out an item? Sure! \n");
+
+                    String checkout = prompter.prompt("Would you like to check out a [B]ook, [A]udio), or [V]ideo)? ", "B|b|A|a|V|v", "Invalid input, please enter only 'B', 'A', or 'V'");
+
+                    switch (checkout.toLowerCase()) {
+                        case "b":
+                            for (Map.Entry<Integer, Item> collection : library.getItems().entrySet()) {
+                            System.out.println(collection.getKey() + ": " + collection.getValue().getTitle() + " by " + collection.getValue().getAuthor());
+                            }
+
+                            String choice = prompter.prompt("Select the item you would like to check out. Enter a number: ", "\\d+", "please choose a number");
+                            System.out.println("Are you sure you want to check out this item? " + library.getItems().get(Integer.valueOf(choice)).getTitle() + " by " + library.getItems().get(Integer.valueOf(choice)).getAuthor());
+                            String verify = prompter.prompt("Please choose [Y]es or [N]o ", "Y|y|N|n", "Invalid input, please enter only 'Y', or 'N'");
+
+                            // checkout item goes here
+                            System.out.println();
+                            break;
+                        case "a":
+                            String author = prompter.prompt("Enter the author of the item: \n");
+                            System.out.println("Here's what we have: \n");
+                            library.searchItemByAuthor(author).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()) );
+                            System.out.println();
+                        case "t":
+                            System.out.println();
+
+                    }
                     // insert checkout function here that takes in the item type as an argument
 
                     // "For that category, here's what we have" then do a for each on the collection
