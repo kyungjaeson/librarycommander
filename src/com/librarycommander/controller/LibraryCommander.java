@@ -1,13 +1,16 @@
 package com.librarycommander.controller;
 
 import com.apps.util.Prompter;
+import com.librarycommander.app.Customer;
 import com.librarycommander.app.Item;
 import com.librarycommander.app.ItemType;
 import com.librarycommander.app.Library;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class LibraryCommander {
     private Library library;
@@ -20,11 +23,19 @@ public class LibraryCommander {
         library.searchItemByTitle(input).forEach(item -> System.out.println(item.getTitle()));
     }
 
+    public Customer getCustomer(String name){
+        List<Customer> customers= library.getCustomers().values().stream()
+                .filter(item ->item.getName().equalsIgnoreCase(name))
+                .collect(Collectors.toList());
+        return customers.get(0);
+    }
+
     public void start() {
         Prompter prompter = new Prompter(new Scanner(System.in));
         boolean main = true;
-
-        System.out.println("Welcome to Library Commander, sir!");
+        String name = prompter.prompt("Please enter your name:");
+        Customer customer = getCustomer(name);
+        System.out.println("Welcome to Library Commander, " + customer.getName()+"!");
 
         while (main) {
             System.out.println("I would like to...");
@@ -66,29 +77,57 @@ public class LibraryCommander {
                     switch (checkout.toLowerCase()) {
                         case "b":
                             library.getItems().entrySet().stream()
-                                    .filter(item->item.getValue().getItemType()== ItemType.BOOK)
-                                    .forEach(item-> System.out.println(item.getKey()+": "+
-                                            item.getValue().getTitle()+" by "+item.getValue().getAuthor()));
-                           /* for (Map.Entry<Integer, Item> collection : library.getItems().entrySet()) {
-                                System.out.println(collection.getKey() + ": " + collection.getValue().getTitle() + " by " + collection.getValue().getAuthor());
-                            }*/
-
+                                    .filter(item -> item.getValue().getItemType() == ItemType.BOOK)
+                                    .forEach(item -> System.out.println(item.getKey() + ": " +
+                                            item.getValue().getTitle() + " by " + item.getValue().getAuthor()));
                             String choice = prompter.prompt("Select the item you would like to check out. Enter a number: ", "\\d+", "please choose a number");
                             System.out.println("Are you sure you want to check out this item? " + library.getItems().get(Integer.valueOf(choice)).getTitle() + " by " + library.getItems().get(Integer.valueOf(choice)).getAuthor());
                             String verify = prompter.prompt("Please choose [Y]es or [N]o ", "Y|y|N|n", "Invalid input, please enter only 'Y', or 'N'");
+                            switch (verify) {
+                                case "y":
+                                    customer.checkOutItem(library.getItems().get(Integer.valueOf(choice)));
+                                    break;
+                                case "n":
+                                    break;
+                            }
+
 
                             // checkout item goes here
                             System.out.println();
                             break;
                         case "a":
-                            String author = prompter.prompt("Enter the author of the item: \n");
-                            System.out.println("Here's what we have: \n");
-                            library.searchItemByAuthor(author).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()));
-                            System.out.println();
-                        case "t":
-                            System.out.println();
+                            library.getItems().entrySet().stream()
+                                    .filter(item -> item.getValue().getItemType() == ItemType.AUDIO)
+                                    .forEach(item -> System.out.println(item.getKey() + ": " +
+                                            item.getValue().getTitle() + " by " + item.getValue().getAuthor()));
+                            String choice2 = prompter.prompt("Select the item you would like to check out. Enter a number: ", "\\d+", "please choose a number");
+                            System.out.println("Are you sure you want to check out this item? " + library.getItems().get(Integer.valueOf(choice2)).getTitle() + " by " + library.getItems().get(Integer.valueOf(choice2)).getAuthor());
+                            String verify2 = prompter.prompt("Please choose [Y]es or [N]o ", "Y|y|N|n", "Invalid input, please enter only 'Y', or 'N'");
+                            switch (verify2) {
+                                case "y":
+                                    customer.checkOutItem(library.getItems().get(Integer.valueOf(choice2)));
+                                    break;
+                                case "n":
+                                    break;
+                            }
+                        case "v":
+                            library.getItems().entrySet().stream()
+                                    .filter(item -> item.getValue().getItemType() == ItemType.VIDEO)
+                                    .forEach(item -> System.out.println(item.getKey() + ": " +
+                                            item.getValue().getTitle() + " by " + item.getValue().getAuthor()));
+                            String choice3 = prompter.prompt("Select the item you would like to check out. Enter a number: ", "\\d+", "please choose a number");
+                            System.out.println("Are you sure you want to check out this item? " + library.getItems().get(Integer.valueOf(choice3)).getTitle() + " by " + library.getItems().get(Integer.valueOf(choice3)).getAuthor());
+                            String verify3 = prompter.prompt("Please choose [Y]es or [N]o ", "Y|y|N|n", "Invalid input, please enter only 'Y', or 'N'");
+                            switch (verify3) {
+                                case "y":
+                                    customer.checkOutItem(library.getItems().get(Integer.valueOf(choice3)));
+                                    break;
+                                case "n":
+                                    break;
 
+                            }
                     }
+
                     // insert checkout function here that takes in the item type as an argument
 
                     // "For that category, here's what we have" then do a for each on the collection
