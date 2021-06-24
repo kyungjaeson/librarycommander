@@ -2,6 +2,7 @@ package com.librarycommander.controller;
 
 import com.apps.util.Prompter;
 import com.librarycommander.app.Item;
+import com.librarycommander.app.ItemType;
 import com.librarycommander.app.Library;
 
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class LibraryCommander {
                         case "a":
                             String author = prompter.prompt("Enter the author of the item: \n");
                             System.out.println("Here's what we have: \n");
-                            library.searchItemByAuthor(author).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()) );
+                            library.searchItemByAuthor(author).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()));
                             System.out.println();
                     }
                     break;
@@ -64,9 +65,13 @@ public class LibraryCommander {
 
                     switch (checkout.toLowerCase()) {
                         case "b":
-                            for (Map.Entry<Integer, Item> collection : library.getItems().entrySet()) {
-                            System.out.println(collection.getKey() + ": " + collection.getValue().getTitle() + " by " + collection.getValue().getAuthor());
-                            }
+                            library.getItems().entrySet().stream()
+                                    .filter(item->item.getValue().getItemType()== ItemType.BOOK)
+                                    .forEach(item-> System.out.println(item.getKey()+": "+
+                                            item.getValue().getTitle()+" by "+item.getValue().getAuthor()));
+                           /* for (Map.Entry<Integer, Item> collection : library.getItems().entrySet()) {
+                                System.out.println(collection.getKey() + ": " + collection.getValue().getTitle() + " by " + collection.getValue().getAuthor());
+                            }*/
 
                             String choice = prompter.prompt("Select the item you would like to check out. Enter a number: ", "\\d+", "please choose a number");
                             System.out.println("Are you sure you want to check out this item? " + library.getItems().get(Integer.valueOf(choice)).getTitle() + " by " + library.getItems().get(Integer.valueOf(choice)).getAuthor());
@@ -78,7 +83,7 @@ public class LibraryCommander {
                         case "a":
                             String author = prompter.prompt("Enter the author of the item: \n");
                             System.out.println("Here's what we have: \n");
-                            library.searchItemByAuthor(author).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()) );
+                            library.searchItemByAuthor(author).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()));
                             System.out.println();
                         case "t":
                             System.out.println();
