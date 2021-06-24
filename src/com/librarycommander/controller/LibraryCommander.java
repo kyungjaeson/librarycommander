@@ -10,10 +10,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class LibraryCommander {
-    private Library library;
+    private final Library library;
 
     public LibraryCommander() {
         library = Library.getInstance();
@@ -23,9 +24,9 @@ public class LibraryCommander {
         library.searchItemByTitle(input).forEach(item -> System.out.println(item.getTitle()));
     }
 
-    public Customer getCustomer(String name){
-        List<Customer> customers= library.getCustomers().values().stream()
-                .filter(item ->item.getName().equalsIgnoreCase(name))
+    public Customer getCustomer(String name) {
+        List<Customer> customers = library.getCustomers().values().stream()
+                .filter(item -> item.getName().equalsIgnoreCase(name))
                 .collect(Collectors.toList());
         return customers.get(0);
     }
@@ -35,7 +36,7 @@ public class LibraryCommander {
         boolean main = true;
         String name = prompter.prompt("Please enter your name:");
         Customer customer = getCustomer(name);
-        System.out.println("Welcome to Library Commander, " + customer.getName()+"!");
+        System.out.println("Welcome to Library Commander, " + customer.getName() + "!");
 
         while (main) {
             System.out.println("I would like to...");
@@ -62,11 +63,13 @@ public class LibraryCommander {
                             System.out.println("Here's what we have: \n");
                             library.searchItemByTitle(title).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()));
                             System.out.println();
+                            break;
                         case "a":
                             String author = prompter.prompt("Enter the author of the item: \n");
                             System.out.println("Here's what we have: \n");
                             library.searchItemByAuthor(author).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()));
                             System.out.println();
+                            break;
                     }
                     break;
                 case "c":
@@ -91,8 +94,6 @@ public class LibraryCommander {
                                     break;
                             }
 
-
-                            // checkout item goes here
                             System.out.println();
                             break;
                         case "a":
@@ -110,6 +111,7 @@ public class LibraryCommander {
                                 case "n":
                                     break;
                             }
+                            break;
                         case "v":
                             library.getItems().entrySet().stream()
                                     .filter(item -> item.getValue().getItemType() == ItemType.VIDEO)
@@ -130,22 +132,43 @@ public class LibraryCommander {
 
                     break;
                 case "r":
+                    // this logic will remove the item in the customer's list and add it back to the library's catalog
                     System.out.println("Returning an item? No problem!");
                     System.out.println();
                     System.out.println("Here are the items that you have on possession:");
                     customer.getItemInPossession().forEach(item -> System.out.println(item.getTitle()));
 
                     // Display the customer's list of items and they'll choose by array index to return book
-                    String returnBookIndex = prompter.prompt("Which one would you like to return? ");
-                    // this logic will remove the item in the customer's list and add it back to the library's catalog
+                    Map<Integer, Item> itemsToReturn = generateMap(customer.getItemInPossession());
+                    if (itemsToReturn.size() < 1) {
+                        System.out.println("Sorry, No item to turn in");
+                    } else {
+                        itemsToReturn.entrySet()
+                                .stream().forEach(item -> System.out.println(
+                                item.getKey() + ": " + item.getValue().getTitle() + " by " + item.getValue().getAuthor()
+                        ));
+                        String returnBookIndex = prompter.prompt("Which one would you like to return?\nEnter the associated number :");
+                        customer.checkInItem(itemsToReturn.get(Integer.parseInt(returnBookIndex)));
+                    }
                     break;
                 case "e":
                     System.out.println("You want to extend your item reservation? Sure thing. Here's what you have:");
+                    Map<Integer, Item> extendedItem = generateMap(customer.getItemInPossession());
                     System.out.println();
                     // Display the customer's list of items and they'll choose by array index to extend reservation
-                    String extend = prompter.prompt("Which one would you like to extend? ");
+                    extendedItem.entrySet()
+                            .stream().forEach(item -> System.out.println(
+                            item.getKey() + ": " + item.getValue().getTitle() + " by " + item.getValue().getAuthor()
+                    ));
+                    String extend = prompter.prompt("Which one would you like to extend?\nEnter the associated number :");
                     // this logic will see if the item chosen has a waiting list and if it does, the user can't extend it
-//                    System.out.println("Sorry, it looks like someone is interested in the item.");
+                    boolean isRenewable = customer.renewItem(extendedItem.get(Integer.parseInt(extend)));
+                    if (isRenewable) {
+                        System.out.println(extendedItem.get(Integer.parseInt(extend)).getTitle() + " has been renewed successfully");
+                    } else {
+                        System.out.println("Sorry, " + extendedItem.get(Integer.parseInt(extend)).getTitle()
+                                + " has a wait list. You have to check in\n. Thank you");
+                    }
                     break;
 
                 case "l":
@@ -164,5 +187,14 @@ public class LibraryCommander {
             }
         }
 
+    }
+
+    private Map<Integer, Item> generateMap(List<Item> itemInPossession) {
+        int counter = 0;
+        Map<Integer, Item> possessedItem = new TreeMap<>();
+        for (Item item : itemInPossession) {
+            possessedItem.put(++counter, item);
+        }
+        return possessedItem;
     }
 }
