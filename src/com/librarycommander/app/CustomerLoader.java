@@ -31,7 +31,9 @@ public class CustomerLoader {
                 String[] line = item.split(",");
                 List<Item> itemList = new ArrayList<>();
                 //customer checking out from file
-                Customer libraryCustomer = new Customer(line[0], Integer.parseInt(line[1]));
+                Customer libraryCustomer = new Customer();
+                libraryCustomer.setName(line[0]);
+                libraryCustomer.setId(Integer.parseInt(line[1].strip()));
                 if (line[2].contains(";")) {
                     for (String title : line[2].split(";")) {
                         List<Item> possessedItem = libraryCustomer.searchItemByTitle(title.strip());

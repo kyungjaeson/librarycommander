@@ -20,7 +20,7 @@ public enum Library {
         CatalogLoader loader = new CatalogLoader();
         items = loader.loadItemsFromFile();
         CustomerLoader customerLoader=new CustomerLoader();
-        //customers = customerLoader.loadCustomersFromFile();
+       //customers = customerLoader.loadCustomersFromFile();
     }
 
     public void addCustomer(Customer customer){

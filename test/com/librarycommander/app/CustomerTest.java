@@ -57,9 +57,10 @@ public class CustomerTest {
 
     @Test
     public void reserveItem() {
-        customer=new Customer("Amma Ababio");
+
+        customer.setName("Karlo Mangubat");
         assertTrue(customer.reserveItem(item));
-        String [] names={"Stephen Yeboah", "Amma Ababio"};
+        String [] names={"Stephen Yeboah", "Karlo Mangubat"};
         assertArrayEquals(names,Library.getInstance()
         .getItems().get(3).getWaitList().toArray(new String[0]));
     }
