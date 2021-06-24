@@ -71,7 +71,7 @@ public enum Library {
     public Collection<Item> searchItemByTitle(String keywords){
         Collection<Item> itemsByTitle = new ArrayList<>();
         for(Item item : items.values()){
-            if(item.getTitle().contains(keywords)){
+            if(item.getTitle().equalsIgnoreCase(keywords)){
                 itemsByTitle.add(item);
             }
         }
@@ -82,7 +82,7 @@ public enum Library {
 
     public Collection<Item> searchItemByAuthor(String author){
         Collection<Item> result = items.values().stream()
-                .filter(item -> item.getAuthor().contains(author))
+                .filter(item -> item.getAuthor().equalsIgnoreCase(author))
                 .collect(Collectors.toList());
         return result;
     }
@@ -96,7 +96,7 @@ public enum Library {
 
     public Collection<Customer> searchCustomerByName(String name){
         return customers.values().stream()
-                .filter(customer -> customer.getName().contains(name))
+                .filter(customer -> customer.getName().equalsIgnoreCase(name))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
