@@ -19,7 +19,8 @@ public enum Library {
     Library() {
         CatalogLoader loader = new CatalogLoader();
         items = loader.loadItemsFromFile();
-        //customers = new CustomerLoader().loadCustomersFromFile();
+        CustomerLoader customerLoader=new CustomerLoader();
+        //customers = customerLoader.loadCustomersFromFile();
     }
 
     public void addCustomer(Customer customer){

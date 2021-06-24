@@ -9,17 +9,18 @@ public class Customer {
     private String name;
     private int id;
     private List<Item> itemInPossession = new LinkedList<>();
-    private static final Library library = Library.getInstance() ;
+    private static Library library = Library.getInstance() ;
     private Map<Integer,Item> catalog = library.getItems();
 
     public Customer(){
     }
     public Customer(String name) {
+        this();
         this.name = name;
     }
 
     public Customer(String name, int id) {
-        this.name = name;
+        this(name);
         this.id = id;
     }
 
