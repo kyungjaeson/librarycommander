@@ -128,16 +128,13 @@ public class LibraryCommander {
                             }
                     }
 
-                    // insert checkout function here that takes in the item type as an argument
-
-                    // "For that category, here's what we have" then do a for each on the collection
-                    // Show both items checked out and not checked out
-
-                    // user will choose by item id to checkout a book
                     break;
                 case "r":
                     System.out.println("Returning an item? No problem!");
                     System.out.println();
+                    System.out.println("Here are the items that you have on possession:");
+                    customer.getItemInPossession().forEach(item -> System.out.println(item.getTitle()));
+
                     // Display the customer's list of items and they'll choose by array index to return book
                     String returnBookIndex = prompter.prompt("Which one would you like to return? ");
                     // this logic will remove the item in the customer's list and add it back to the library's catalog
