@@ -24,6 +24,7 @@ public class Customer {
     }
 
     public boolean checkOutItem(Item libraryItem)  {
+       // Map<Integer,Item> catalog=Library.getInstance().getItems();
         boolean status=false;
         System.out.println("Checking out: " + libraryItem.getTitle());
         Collection<Item> libraryCatalog = catalog.values();
@@ -37,6 +38,7 @@ public class Customer {
     }
 
     public boolean checkInItem(Item libraryItem){
+        //Map<Integer,Item> catalog=Library.getInstance().getItems();
         System.out.println("Checking in: " + libraryItem.getTitle());
         Collection<Item> libraryCatalog = catalog.values();
         itemInPossession.remove(libraryItem);
@@ -48,15 +50,18 @@ public class Customer {
     }
 
     public List<Item> searchItemByTitle(String keyWord) {
+        //Map<Integer,Item> catalog=Library.getInstance().getItems();
         Collection<Item> libraryCatalog = catalog.values();
         List<Item> searchedItem = libraryCatalog.stream()
                 .filter(item -> item.getTitle().contains(keyWord))
                 .sorted(Comparator.comparing(item -> item.getTitle()))
                 .collect(Collectors.toList());
         return searchedItem;
+
     }
 
     public List<Item> searchItemByAuthor(String author) {
+        //Map<Integer,Item> catalog=Library.getInstance().getItems();
         List<Item> itemByAuthor = catalog.values().stream()
                 .filter(item -> item.getAuthor().toLowerCase().contains(author.toLowerCase()))
                 .sorted((item1, item2) -> item1.getAuthor().compareTo(item2.getAuthor()))
@@ -64,8 +69,10 @@ public class Customer {
         return itemByAuthor;
     }
 
-    public void renewItem(Item libraryItem)  {
+    public boolean renewItem(Item libraryItem)  {
+       // Map<Integer,Item> catalog=Library.getInstance().getItems();
         boolean hasWaitList = false;
+        boolean isRenewable=false;
         //check if the item has a wait list
         Collection<Item> itemToBeRenewed = catalog.values();
         for (Item renewItem : itemToBeRenewed) {
@@ -78,13 +85,16 @@ public class Customer {
         }
         if (hasWaitList) {
             System.out.println("Sorry, " + libraryItem.getTitle() + " has a wait list. You have to check in\n. Thank you");
-            checkInItem(libraryItem);
+
         } else {
+            isRenewable=true;
             System.out.println(libraryItem.getTitle() + " has been renewed successfully");
         }
+        return isRenewable;
     }
 
     public boolean reserveItem(Item keyWord) {
+       // Map<Integer,Item> catalog=Library.getInstance().getItems();
         //list of updated items
         List<Item> updatedItem = new LinkedList<>();
         //search if we have the item
@@ -127,7 +137,7 @@ public class Customer {
         return name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -145,6 +155,6 @@ public class Customer {
     }
 
     public Map<Integer,Item> currentLibraryCollection(){
-        return catalog;
+        return Library.getInstance().getItems();
     }
 }
