@@ -87,9 +87,9 @@ public enum Library {
         return result;
     }
 
-    public Collection<Item> searchItemByType(DistributionType distributionType){
+    public Collection<Item> searchItemByType(ItemType itemType){
         Collection<Item> result = items.values().stream()
-                .filter(item -> item.getDistributionType().equals(distributionType))
+                .filter(item -> item.getDistributionType().equals(itemType))
                 .collect(Collectors.toCollection(ArrayList::new));
         return result;
     }
