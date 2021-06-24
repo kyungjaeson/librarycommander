@@ -20,12 +20,12 @@ public class CatalogLoader {
             counter++;
             List<String> customerList = new ArrayList<>();
             String[] line = item.split(",");
-            libraryItem = createItems(ItemType.valueOf(line[7]));
+            libraryItem = createItems(ItemType.valueOf(line[7].trim()));
             libraryItem.setTitle(line[0]);
             libraryItem.setAuthor(line[1]);
             libraryItem.setCheckedStatus(Boolean.parseBoolean(line[2]));
-            libraryItem.setDistributionType(DistributionType.valueOf(line[3]));
-            libraryItem.setItemType(ItemType.valueOf(line[7]));
+            libraryItem.setDistributionType(DistributionType.valueOf(line[3].trim()));
+            libraryItem.setItemType(ItemType.valueOf(line[7].trim()));
             setCustomerList(customerList, line);
             libraryItem.setWaitList(customerList);
             setItemTypes(libraryItem, line);
@@ -49,7 +49,7 @@ public class CatalogLoader {
     private void setItemTypes(Item libraryItem, String[] item) {
         if (libraryItem instanceof Book) {
             ((Book) libraryItem).setIsbn(item[5]);
-            ((Book) libraryItem).setPages(Integer.parseInt(item[6]));
+            ((Book) libraryItem).setPages(Integer.parseInt(item[6].trim()));
         } else if (libraryItem instanceof Audio) {
             ((Audio) libraryItem).setLength(item[5]);
             ((Audio) libraryItem).setAudioType(AudioType.valueOf(item[6]));

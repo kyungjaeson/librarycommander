@@ -84,13 +84,12 @@ public class Customer {
                 break;
             }
         }
-        if (hasWaitList) {
-            System.out.println("Sorry, " + libraryItem.getTitle() + " has a wait list. You have to check in\n. Thank you");
-
-        } else {
+        if (!hasWaitList) {
             isRenewable=true;
-            System.out.println(libraryItem.getTitle() + " has been renewed successfully");
-        }
+        } /*else {
+            isRenewable=true;
+           // System.out.println(libraryItem.getTitle() + " has been renewed successfully");
+        }*/
         return isRenewable;
     }
 
