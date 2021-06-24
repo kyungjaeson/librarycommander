@@ -44,11 +44,12 @@ public enum Library {
     public void addItem(Item item){
         int highestValue = 0;
         for(Integer mapKey: items.keySet()){
-            if(highestValue > mapKey){
+            if(highestValue < mapKey){
                 highestValue = mapKey;
             }
         }
         items.put(highestValue + 1, item);
+
     }
 
 
