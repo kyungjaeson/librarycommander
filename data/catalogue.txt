@@ -1,3 +1,20 @@
 Effective Java,Joshua Bloch,true,CIRCULATING,,978-0-13-468599-1,392,BOOK
 Greenlights,Matthew McConaughey,true,RESTRICTED,,6:42,BOOK,AUDIO
 Hibernate and Java Persistence API,Kevin Bowersox,false,CIRCULATING,Stephen Yeboah,7:22,HD,VIDEO
+Anne Karenina, Leo Tolstoy, false, CIRCULATING,,768-3-467845-1,846,BOOK
+Great Gatsby, Scott Fitzgerald,false, CIRCULATING,,464-4-478456-1, 315, BOOK
+One Hundred Years Of Solitude, Gabriel Marquez, false, CIRCULATING,,478-410354-1-4,185, BOOK
+Invisible Man, Ralph Ellison, false, CIRCULATING,, 46-12-1645-8401, 678, BOOK
+Encyclopedia Britanica, Andrew Bell, false, REFERENCE,, 96-847-134548, 2005,BOOK
+Think Like a Stripper, Erika Lyremark, false, RESTRICTED,, 74-484-4918451, 110, BOOK
+To Kill a Mockingbird, Harper Lee, false, RESTRICTED,, 14-684-1678455, 180, BOOK
+The Hate You Give, Angie Thomas, false, RESTRICTED,, 17-618-0808086, 264, BOOK
+Numa Numa, Gary Brolsma, false, CIRCULATING,,4m11s,QUAD_HD, VIDEO
+Emperor Escalator, Robot Chicken, false, CIRCULATING,, 1m11s,HD,VIDEO
+Alma Ara, Aredshir Irani, false, RESTRICTED,, 3m14s,HD,VIDEO
+How to Install Github, Jay Rostosky,  false, REFERENCE,,10m50s,ULTRA_HD, VIDEO
+Emotions, Mariah Carey, false, CIRCULATING,,3m11s, MUSIC,AUDIO
+After The Storm, Kali Uchis, false, CIRCULAING,,4m20s,MUSIC, AUDIO
+Look Into My Eyes, Karl Buchanan, false, CIRCULATING,, 4h20m58s, BOOK, AUDIO
+Sounds of War, Stephen Son, false, REFERENCE,,20m50s,MUSIC,AUDIO
+
