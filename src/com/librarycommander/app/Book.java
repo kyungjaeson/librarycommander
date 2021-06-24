@@ -16,14 +16,12 @@ public class Book extends Item {
         setAuthor(author);
     }
     public Book(String title, String author, String isbn, int pages){
-        this();
-        setTitle(title);
-        setAuthor(author);
+        this(title, author);
         setIsbn(isbn);
         setPages(pages);
     }
     public Book(String title,String author, String isbn, int pages, DistributionType distributionType){
-        this();
+        this(title, author, isbn, pages);
         setDistributionType(distributionType);
     }
 
