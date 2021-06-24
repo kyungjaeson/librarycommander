@@ -11,16 +11,20 @@ public enum Library {
     public static Library getInstance() {
         return INSTANCE;
     }
-
-    // new customer loader
-    private Map<Integer,Customer> customers;
-    private Map<Integer,Item> items;
-
-    Library() {
+    //fires when a class is loaded
+    static {
         CatalogLoader loader = new CatalogLoader();
         items = loader.loadItemsFromFile();
         CustomerLoader customerLoader=new CustomerLoader();
-       //customers = customerLoader.loadCustomersFromFile();
+        customers = customerLoader.loadCustomersFromFile();
+    }
+
+    // new customer loader
+    private static Map<Integer,Customer> customers;
+    private static Map<Integer,Item> items;
+
+    Library() {
+
     }
 
     public void addCustomer(Customer customer){
