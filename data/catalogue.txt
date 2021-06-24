@@ -14,7 +14,7 @@ Emperor Escalator, Robot Chicken, false, CIRCULATING,, 1m11s,HD,VIDEO
 Alma Ara, Aredshir Irani, false, RESTRICTED,, 3m14s,HD,VIDEO
 How to Install Github, Jay Rostosky,  false, REFERENCE,,10m50s,ULTRA_HD, VIDEO
 Emotions, Mariah Carey, false, CIRCULATING,,3m11s, MUSIC,AUDIO
-After The Storm, Kali Uchis, false, CIRCULAING,,4m20s,MUSIC, AUDIO
+After The Storm, Kali Uchis, false, CIRCULATING,,4m20s,MUSIC, AUDIO
 Look Into My Eyes, Karl Buchanan, false, CIRCULATING,, 4h20m58s, BOOK, AUDIO
 Sounds of War, Stephen Son, false, REFERENCE,,20m50s,MUSIC,AUDIO
 
