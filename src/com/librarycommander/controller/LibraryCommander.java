@@ -53,20 +53,20 @@ public class LibraryCommander {
 
             switch (mainInput.toLowerCase()) {
                 case "s":
-                    System.out.println();
-
-                    String searchBy = prompter.prompt("Would you like to search by [T]itle or [A]uthor?", "T|t|A|a", "Invalid input, please enter only 'T' or 'A'");
+                     String searchBy = prompter.prompt("Would you like to search by [T]itle or [A]uthor?", "T|t|A|a", "Invalid input, please enter only 'T' or 'A'");
 
                     switch (searchBy.toLowerCase()) {
                         case "t":
                             String title = prompter.prompt("Enter the title of the item: ");
-                            System.out.println("Here's what we have: \n");
+                            System.out.println("Here's what we have: ");
+                            System.out.println("===============================");
                             library.searchItemByTitle(title).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()));
                             System.out.println();
                             break;
                         case "a":
                             String author = prompter.prompt("Enter the author of the item: \n");
-                            System.out.println("Here's what we have: \n");
+                            System.out.println("Here's what we have: ");
+                            System.out.println("===============================");
                             library.searchItemByAuthor(author).forEach(item -> System.out.println(item.getTitle() + " by " + item.getAuthor()));
                             System.out.println();
                             break;
@@ -169,11 +169,19 @@ public class LibraryCommander {
 
                 case "l":
                     System.out.println("Here's what you have checked out:");
+                    System.out.println("=========================================");
+                    Map<Integer, Item> checkedOutItem = generateMap(customer.getItemInPossession());
+                     // Display the customer's list of items and they'll choose by array index to extend reservation
+                    checkedOutItem.entrySet()
+                            .stream().forEach(item -> System.out.println(
+                            item.getKey() + ": " + item.getValue().getTitle() + " by " + item.getValue().getAuthor()
+                    ));
                     System.out.println();
-                    // list out items from customer class
                     break;
                 case "q":
                     System.out.println("Thank you for choosing Library Commander");
+                    //save before quitting
+                    customer.saveCustomerCollection(library.getCustomers(),library.getItems());
                     System.exit(0);
                 default:
                     System.out.println("Invalid input: " + mainInput + ". Please try again.");

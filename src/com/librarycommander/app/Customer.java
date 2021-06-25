@@ -10,7 +10,7 @@ public class Customer {
     private int id;
     private List<Item> itemInPossession = new LinkedList<>();
 
-    public Customer(){
+    public Customer() {
 
     }
 
@@ -24,34 +24,44 @@ public class Customer {
     }
 
 
-    public boolean checkOutItem(Item libraryItem)  {
-       Map<Integer,Item> catalog=Library.getInstance().getItems();
-        boolean status=false;
+    public boolean checkOutItem(Item libraryItem) {
+        Map<Integer, Item> catalog = Library.getInstance().getItems();
+        boolean status = false;
         System.out.println("Checking out: " + libraryItem.getTitle());
         Collection<Item> libraryCatalog = catalog.values();
-        itemInPossession.add(libraryItem);
-        List<Item> updatedItem =libraryCatalog.stream()
-                .filter(item -> item.getTitle().equalsIgnoreCase(libraryItem.getTitle()) &&
-                        item.getAuthor().equalsIgnoreCase(libraryItem.getAuthor()))
-                .peek(item -> item.setCheckedStatus(false)).collect(Collectors.toList());
-        status =updateCatalogue(updatedItem,catalog);
+        if (itemInPossession.contains(libraryItem)) {
+            System.out.println("Sorry, " + libraryItem.getTitle() + " is already" +
+                    " in your possession");
+        } else if (libraryItem.isCheckedStatus() == false) {
+            System.out.println(libraryItem.getTitle() + " is not available");
+        } else if (libraryItem.getDistributionType() == DistributionType.REFERENCE) {
+            System.out.println("You cannot check out this item as it is marked\n" +
+                    "REFERENCE. You are welcome to use it in the Library");
+        } else {
+            itemInPossession.add(libraryItem);
+            List<Item> updatedItem = libraryCatalog.stream()
+                    .filter(item -> item.getTitle().equalsIgnoreCase(libraryItem.getTitle()) &&
+                            item.getAuthor().equalsIgnoreCase(libraryItem.getAuthor()))
+                    .peek(item -> item.setCheckedStatus(false)).collect(Collectors.toList());
+            status = updateCatalogue(updatedItem, catalog);
+        }
         return status;
     }
 
-    public boolean checkInItem(Item libraryItem){
-        Map<Integer,Item> catalog=Library.getInstance().getItems();
+    public boolean checkInItem(Item libraryItem) {
+        Map<Integer, Item> catalog = Library.getInstance().getItems();
         System.out.println("Checking in: " + libraryItem.getTitle());
         Collection<Item> libraryCatalog = catalog.values();
         itemInPossession.remove(libraryItem);
-        List<Item> checkedIn=libraryCatalog.stream()
+        List<Item> checkedIn = libraryCatalog.stream()
                 .filter(item -> item.getTitle().equalsIgnoreCase(libraryItem.getTitle()) &&
                         item.getAuthor().equalsIgnoreCase(libraryItem.getAuthor()))
                 .peek(item -> item.setCheckedStatus(true)).collect(Collectors.toList());
-        return updateCatalogue(checkedIn,catalog);
+        return updateCatalogue(checkedIn, catalog);
     }
 
     public List<Item> searchItemByTitle(String keyWord) {
-        Map<Integer,Item> catalog=Library.getInstance().getItems();
+        Map<Integer, Item> catalog = Library.getInstance().getItems();
         Collection<Item> libraryCatalog = catalog.values();
         List<Item> searchedItem = libraryCatalog.stream()
                 .filter(item -> item.getTitle().contains(keyWord))
@@ -62,7 +72,7 @@ public class Customer {
     }
 
     public List<Item> searchItemByAuthor(String author) {
-        Map<Integer,Item> catalog=Library.getInstance().getItems();
+        Map<Integer, Item> catalog = Library.getInstance().getItems();
         List<Item> itemByAuthor = catalog.values().stream()
                 .filter(item -> item.getAuthor().toLowerCase().contains(author.toLowerCase()))
                 .sorted((item1, item2) -> item1.getAuthor().compareTo(item2.getAuthor()))
@@ -70,10 +80,10 @@ public class Customer {
         return itemByAuthor;
     }
 
-    public boolean renewItem(Item libraryItem)  {
-       Map<Integer,Item> catalog=Library.getInstance().getItems();
+    public boolean renewItem(Item libraryItem) {
+        Map<Integer, Item> catalog = Library.getInstance().getItems();
         boolean hasWaitList = false;
-        boolean isRenewable=false;
+        boolean isRenewable = false;
         //check if the item has a wait list
         Collection<Item> itemToBeRenewed = catalog.values();
         for (Item renewItem : itemToBeRenewed) {
@@ -85,16 +95,13 @@ public class Customer {
             }
         }
         if (!hasWaitList) {
-            isRenewable=true;
-        } /*else {
-            isRenewable=true;
-           // System.out.println(libraryItem.getTitle() + " has been renewed successfully");
-        }*/
+            isRenewable = true;
+        }
         return isRenewable;
     }
 
     public boolean reserveItem(Item keyWord) {
-      Map<Integer,Item> catalog=Library.getInstance().getItems();
+        Map<Integer, Item> catalog = Library.getInstance().getItems();
         //list of updated items
         List<Item> updatedItem = new LinkedList<>();
         //search if we have the item
@@ -115,17 +122,17 @@ public class Customer {
             updatedItem.stream().forEach(item -> System.out.println(Arrays.toString(item.getWaitList().toArray())));
         }
 
-       return updateCatalogue(updatedItem, catalog);
+        return updateCatalogue(updatedItem, catalog);
 
     }
 
     private boolean updateCatalogue(List<Item> updatedItem, Map<Integer, Item> values) {
-        boolean isUpdated=false;
+        boolean isUpdated = false;
         for (Map.Entry<Integer, Item> item : values.entrySet()) {
             for (Item newItem : updatedItem) {
                 if (newItem.equals(item.getValue())) {
                     values.put(item.getKey(), newItem);
-                    isUpdated=true;
+                    isUpdated = true;
                     break;
                 }
             }
@@ -145,6 +152,12 @@ public class Customer {
         return itemInPossession;
     }
 
+    public void saveCustomerCollection(Map<Integer, Customer> customerLibraryCollection,
+                                       Map<Integer,Item> libraryItems) {
+        Library.getInstance().saveCollection(customerLibraryCollection,
+                libraryItems);
+    }
+
 
     public String toString() {
         return getName();
@@ -154,7 +167,7 @@ public class Customer {
         this.itemInPossession = items;
     }
 
-    public Map<Integer,Item> currentLibraryCollection(){
+    public Map<Integer, Item> currentLibraryCollection() {
         return Library.getInstance().getItems();
     }
 }

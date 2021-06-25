@@ -1,3 +1,3 @@
-Adam Barnacle,123456789,Effective Java
-Bob Saget,987654321,Greenlights
-C3P0,654987321,Greenlights;Hibernate and Java Persistence API
+Adam Barnacle,123456789,One Hundred Years Of Solitude;Numa Numa
+Bob Saget,987654321,Great Gatsby;Emotions;Emperor Escalator
+C3P0,654987321,Greenlights;Hibernate and Java Persistence API;Invisible Man

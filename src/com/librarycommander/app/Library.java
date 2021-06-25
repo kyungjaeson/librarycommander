@@ -117,4 +117,9 @@ public enum Library {
         return items;
     }
 
+    public void saveCollection(Map<Integer,Customer> customerLibraryCollection,
+                               Map<Integer,Item> libraryItems) {
+        new CustomerLoader().writeCustomersToFile(customerLibraryCollection);
+        new CatalogLoader().writeItemsToFile(libraryItems);
+    }
 }
