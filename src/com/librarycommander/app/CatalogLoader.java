@@ -72,12 +72,12 @@ public class CatalogLoader {
                 if (catalog.getWaitList().isEmpty()) {
                     line.append(",");
                 } else {
-                    String waitList = "";
+
                     for (String customer : catalog.getWaitList()) {
-                        waitList += customer + ";";
+                       line.append(customer).append(";");
                     }
-                    waitList = waitList.replace(waitList.charAt(waitList.lastIndexOf(';')), ' ').strip();
-                    line.append(waitList).append(",");
+                    line.deleteCharAt(line.lastIndexOf(";")).append(",");
+                   // line.append(waitList).append(",");
                 }
                 setItemTypeAttributes(catalog, line);
                 line.append(",").append(catalog.getItemType());

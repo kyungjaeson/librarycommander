@@ -43,8 +43,9 @@ public class LibraryCommander {
             System.out.println();
             System.out.println("S - Search for an item");
             System.out.println("C - Check out item");
-            System.out.println("R - Return item");
-            System.out.println("E - Extend reservation");
+            System.out.println("R - Return an item");
+            System.out.println("W - Renew item");
+            System.out.println("V - Reserve item");
             System.out.println("L - List out items checked out");
             System.out.println("Q - Quit Library Commander");
             System.out.println();
@@ -151,8 +152,8 @@ public class LibraryCommander {
                         customer.checkInItem(itemsToReturn.get(Integer.parseInt(returnBookIndex)));
                     }
                     break;
-                case "e":
-                    System.out.println("You want to extend your item reservation? Sure thing. Here's what you have:");
+                case "w":
+                    System.out.println("You want to renew your item? Sure thing. Here's what you have:");
                     Map<Integer, Item> extendedItem = generateMap(customer.getItemInPossession());
                     System.out.println();
                     // Display the customer's list of items and they'll choose by array index to extend reservation
@@ -168,6 +169,18 @@ public class LibraryCommander {
                     } else {
                         System.out.println("Sorry, " + extendedItem.get(Integer.parseInt(extend)).getTitle()
                                 + " has a wait list. You have to check in\n. Thank you");
+                    }
+                    break;
+                case "v":
+                    System.out.println("You want to renew an item? Sure thing. Here's what we have:");
+                    System.out.println("=============================================================");
+                    library.getItems().entrySet().stream()
+                            .forEach(item-> System.out.println(item.getKey()+": "+
+                                    item.getValue().getTitle()+" by "+item.getValue().getAuthor()));
+                    String reserve = prompter.prompt("Which one would you like to extend?\nEnter the associated number :");
+                    boolean reserveStatus = customer.reserveItem(library.getItems().get(Integer.parseInt(reserve)));
+                    if(reserveStatus){
+                        System.out.println("You have successfully reserve the item.\nWe will notify you when it becomes available");
                     }
                     break;
 
