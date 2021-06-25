@@ -31,8 +31,7 @@ public class CatalogLoader {
             setItemTypes(libraryItem, line);
             catalog.put(counter, libraryItem);
         }
-//        }
-        System.out.println(catalog);
+
         return catalog;
     }
 
