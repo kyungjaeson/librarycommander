@@ -10,7 +10,7 @@ Think Like a Stripper,Erika Lyremark,false,RESTRICTED,,74-484-4918451,110,BOOK
 To Kill a Mockingbird,Harper Lee,true,RESTRICTED,,14-684-1678455,180,BOOK
 The Hate You Give,Angie Thomas,true,RESTRICTED,,17-618-0808086,264,BOOK
 Numa Numa,Gary Brolsma,false,CIRCULATING,,4m11s,QUAD_HD,VIDEO
-Emperor Escalator, Robot Chicken,false,CIRCULATING,,1m11s,HD,VIDEO
+Emperor Escalator, Robot Chicken,true,CIRCULATING,,1m11s,HD,VIDEO
 Alma Ara,Aredshir Irani,true,RESTRICTED,,3m14s,HD,VIDEO
 How to Install Github,Jay Rostosky,true,REFERENCE,,10m50s,ULTRA_HD,VIDEO
 Emotions, Mariah Carey,false,CIRCULATING,,3m11s,MUSIC,AUDIO
